@@ -13,7 +13,7 @@ class CreateCategoriaTable extends Migration
     {
         Schema::create('categoria', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->unsignedBigInteger('id_categoria')->primary();
+            $table->id('id_categoria');
             $table->string('nom_categoria', 50);
             $table->string('descripcion',100)->nullable();
             $table->timestamps();

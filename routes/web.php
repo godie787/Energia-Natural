@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CategoriaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,9 +29,10 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/login', [LoginController::class, 'show'] );
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/logout', [LogoutController::class, 'logout']);
 
+//rutas productos
 Route::get('/productos/form', [ProductoController::class, 'form'])->name('productos.form');
 Route::post('/productos/form', [ProductoController::class, 'store'])->name('productos.guardar');
 
@@ -40,3 +43,9 @@ Route::put('/productos/{id_producto}', [ProductoController::class, 'update'])->n
 
 
 Route::delete('/productos/{id_producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
+
+//rutas para las categorias
+Route::get('/categorias/crear', [CategoriaController::class, 'create'])->name('categorias.create');
+Route::post('/categorias/crear', [CategoriaController::class, 'store'])->name('categorias.store');
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+Route::put('/categorias/{id_categoria}/editar', [CategoriaController::class, 'update'])->name('categorias.update');

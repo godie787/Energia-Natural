@@ -69,13 +69,16 @@
             <ul class="nav-links">
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Ver Tienda</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/login">Iniciar sesión</a>
                     </li>
                 @endguest
                 @auth
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Crear una nueva categoria</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver productos</a>
                     </li>
@@ -102,7 +105,7 @@
 
     <section class="vh-100">
         @auth
-        <div class="table-container">
+        <div class="table-container" style="margin-top:60px;">
             <h2 class="mb-4">Lista de Productos</h2>
             @if(session('success'))
                 <div class="alert alert-success mb-3">
@@ -150,7 +153,7 @@
                             <td>{{ $producto->categoria->nom_categoria }}</td>
                             <td>{{ $producto->descripcion }}</td>
                             <td>{{ $producto->precio_venta }}</td>
-                            <td>
+                            <td class="align-middle text-center">
                                 <a data-fancybox="gallery" href="{{ asset('storage/' . $producto->imagen) }}">
                                     <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" style="max-width: 100px;">
                                 </a>
@@ -168,8 +171,6 @@
                                 color: white;" href="#" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar este producto?')) { document.getElementById('delete-form-{{ $producto->id }}').submit(); }" class="btn">Eliminar</a>
                             </td>
                         </tr>
-                        
-
                     @endforeach
                 </tbody>
             </table>

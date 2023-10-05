@@ -39,14 +39,7 @@
             border-radius: 4px;
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        
     </style>
 </head>
 <body>
@@ -57,6 +50,7 @@
         
         <nav>
             <ul class="nav-links">
+                
                 @guest
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Ver Tienda</a>
@@ -66,6 +60,12 @@
                     </li>
                 @endguest
                 @auth
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Crear una nueva categoria</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver productos</a>
                     </li>
@@ -90,7 +90,7 @@
     </header>
 <section class="vh-100">
     @auth
-    <div style="margin-top:100px" class="form-container">
+    <div style="margin-top:60px" class="form-container">
         <h2 class="mb-4">Crear nuevo producto</h2>
         @if(session('success'))
                     <div class="alert alert-success">

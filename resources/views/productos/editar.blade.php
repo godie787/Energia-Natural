@@ -68,6 +68,12 @@
             @endguest
             @auth
                 <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Crear una nueva categoria</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver productos</a>
                 </li>
                 <li class="nav-item">
@@ -153,7 +159,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn" style="background-color: #1b3039; color: white">Guardar Cambios</button>
+            <button type="submit" class="btn" style="background-color: #1b3039; color:white">Guardar Cambios</button>
         </form>
         
     </div>
