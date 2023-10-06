@@ -31,4 +31,27 @@ class RegisterRequest extends FormRequest
             'password_confirmation' => 'required|same:password',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'nom_usuario.required' => 'El nombre de usuario es obligatorio.',
+            'nom_usuario.unique' => 'El nombre de usuario ya está en uso.',
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'apellido.required' => 'El campo apellido es obligatorio.',
+            'rut.required' => 'El RUT es obligatorio.',
+            'rut.unique' => 'El RUT ya está en uso.',
+            'correo.required' => 'La dirección de correo electrónico es obligatoria.',
+            'correo.unique' => 'La dirección de correo electrónico ya está en uso.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria.',
+            'password_confirmation.same' => 'La confirmación de la contraseña no coincide con la contraseña.',
+        ];
+    }
 }

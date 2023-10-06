@@ -4,11 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Registro</title>
+  <title>Energia Natural</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- REFERENCIAS-->
   <link rel="stylesheet" href="{{('css/styles.css')}}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .background-section {
+      background-image: url('{{asset("images/fondo.jpg")}}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      z-index: 999;
+    }
+  </style>
 </head>
 
 <body>
@@ -26,30 +48,28 @@
         </nav>
         <a class="btn" href="#"><button>Contacto</button></a>
     </header>
-    <section class="vh-100" style="background-color:#e8e8e8;">
+    <section class="background-section">
         <div class="container py-5 h-80">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col col-xl-10">
               <div class="card" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
                 <div class="row g-0">
                   <div class="col-md-6 col-lg-5 d-none d-md-block text-center"
-                  style="background-color: #9A616D; ">
+                  style="background-color: #1b3039; ">
                     <img src="{{asset('images/logo_empresa.JPG')}}"
                       alt="Cuarzos energía natural" class="img-fluid w-80 mx-auto rounded-circle"
-                      style="margin-top:220px; max-width: 400px; height: auto; " />
+                      style="margin-top:180px; max-width: 400px; height: auto; " />
                   </div>
                   <div class="col-md-6 col-lg-7 d-flex align-items-center">
                     <div class="card-body p-4 p-lg-5 text-black">
       
                       <form action="/login" method="POST">
                         @csrf
-                        
-      
                         <div class="d-flex align-items-center mb-3 pb-1">
                           <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                         </div>
       
-                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar sesión como administrador</h5>
+                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar sesión</h3>
                         @if ($errors->any())
                           <div class="alert alert-danger">
                             <ul>

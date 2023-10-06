@@ -92,9 +92,9 @@ class ProductoController extends Controller
         $request->validate([
             'nom_producto' => 'required|string|max:50',
             'id_categoria' => 'required|exists:categoria,id_categoria',
-            'descripcion' => 'required|string|max:80',
+            'descripcion' => 'string|max:200',
             'precio_venta' => 'required|numeric',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'estado' => 'required|boolean',
         ]);
 

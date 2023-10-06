@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <title>Home</title>
+    <title>Energia Natural</title>
     <style>
         body {
-            background-color: #e8e8e8;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{{ asset("images/fondo.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .nav-item {
@@ -77,10 +83,13 @@
                         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Crear una nueva categoria</a>
+                        <a class="nav-link" href="">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver productos</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Categorias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver Productos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('productos.form') }}">Agregar Productos</a>
