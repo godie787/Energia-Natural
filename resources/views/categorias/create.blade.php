@@ -79,7 +79,7 @@
                         <a class="nav-link" href="">Usuarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categorias.create') }}">Categorias</a>
+                        <a class="nav-link" href="{{ route('categorias.create') }}">Categorías</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Productos</a>
