@@ -54,16 +54,16 @@
                         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="">Estadísticas</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Categorias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.form') }}">Agregar Productos</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Productos</a>
                     </li>
                     <!-- Enlace para abrir el formulario de creación de productos -->
                 @endauth

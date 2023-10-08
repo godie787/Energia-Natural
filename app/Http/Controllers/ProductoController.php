@@ -18,7 +18,7 @@ class ProductoController extends Controller
             'nom_producto' => 'required|string|max:50',
             'id_categoria' => 'required|exists:categoria,id_categoria',
             'descripcion' => 'required|string|max:80',
-            'precio_venta' => 'required|numeric',
+            'precio_venta' => 'required|numeric|min:0',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Puede ser opcional
             'estado' => 'required|boolean',
         ]);
@@ -93,7 +93,7 @@ class ProductoController extends Controller
             'nom_producto' => 'required|string|max:50',
             'id_categoria' => 'required|exists:categoria,id_categoria',
             'descripcion' => 'string|max:200',
-            'precio_venta' => 'required|numeric',
+            'precio_venta' => 'required|numeric|min:0',
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'estado' => 'required|boolean',
         ]);

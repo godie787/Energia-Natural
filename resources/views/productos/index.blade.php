@@ -83,16 +83,16 @@
                         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="">Estadísticas</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Categorias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.form') }}">Agregar Productos</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Productos</a>
                     </li>
                     <!-- Enlace para abrir el formulario de creación de productos -->
                 
@@ -115,7 +115,8 @@
     <section class="vh-100">
         @auth
         <div class="table-container" style="margin-top:60px;">
-            <h2 class="mb-4">Lista de Productos</h2>
+            <h2 class="mb-4">Lista de Productos <button class="btn" data-bs-toggle="modal" data-bs-target="#crearProductoModal" style=" background-color: #1b3039;
+                color: white; margin-left: 10px;">Crear un nuevo Producto</button></h2>
             @if(session('success'))
                 <div class="alert alert-success mb-3">
                     {{ session('success') }}
@@ -146,18 +147,20 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th style="width: 100px;">ID Producto</th>
+                        <th style="width: 200px;">Nombre</th>
                         <th>Categoría</th>
                         <th>Descripción</th>
-                        <th>Precio de Venta</th>
-                        <th>Imagen</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th style="width: 200px;">Precio venta</th>
+                        <th style="width: 200px;">Imagen</th>
+                        <th style="width: 200px;">Estado</th>
+                        <th style="width: 100px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($productos as $producto)
                         <tr>
+                            <td>{{ $producto->id_producto }}</td>
                             <td>{{ $producto->nom_producto }}</td>
                             <td>{{ $producto->categoria->nom_categoria }}</td>
                             <td>{{ $producto->descripcion }}</td>
@@ -172,12 +175,11 @@
                                 <a style = "background-color: #fc9305;
                                 color: white;"href="{{ route('productos.editar', ['id_producto' => $producto->id_producto]) }}" class="btn">Editar</a>
 
-                                <form id="delete-form-{{ $producto->id }}" action="{{ route('productos.destroy', ['id_producto' => $producto->id_producto]) }}" method="POST" style="display: none;">
+                                <form id="delete-form-{{ $producto->id_producto }}" action="{{ route('productos.destroy', ['id_producto' => $producto->id_producto]) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a style = "background-color: #A44848;
-                                color: white;" href="#" onclick="event.preventDefault(); if(confirm('¿Estás seguro de que deseas eliminar este producto?')) { document.getElementById('delete-form-{{ $producto->id }}').submit(); }" class="btn">Eliminar</a>
+                                <a style="background-color: #A44848; color: white;" href="#" onclick="event.preventDefault(); console.log('Intentando eliminar producto {{ $producto->id_producto }}'); if(confirm('¿Estás seguro de que deseas eliminar este producto?')) { document.getElementById('delete-form-{{ $producto->id_producto }}').submit(); }" class="btn">Eliminar</a>
                             </td>
                         </tr>
                     @endforeach
@@ -188,10 +190,120 @@
         @endauth
         
     </section>
+    <!-- Modal -->
+    <div class="modal fade" id="crearProductoModal" tabindex="-1" role="dialog" aria-labelledby="crearProductoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="crearProductoModalLabel">Crear nuevo producto</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" >
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tu formulario aquí -->
+                    
+                    <form id="formulario-producto" action="{{ route('productos.guardar') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="nom_producto" class="form-label">Nombre del Producto (max: 50 caracteres)</label>
+                            <input type="text" name="nom_producto" id="nom_producto" class="form-control" value="{{ old('nom_producto') }}" required>
+                            <div id="mensajeNombre" style="color: red;"></div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="id_categoria" class="form-label">Categoría</label>
+                            <select name="id_categoria" id="id_categoria" class="form-control" required>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->id_categoria }}" {{ old('id_categoria') == $categoria->id_categoria ? 'selected' : '' }}>
+                                        {{ $categoria->nom_categoria }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="descripcion" class="form-label">Descripción (max: 80 catacteres)</label>
+                            <textarea name="descripcion" id="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
+                            <div id="mensajeDescripcion" style="color: red;"></div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="precio_venta" class="form-label">Precio de Venta</label>
+                            <input type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.01" value="{{ old('precio_venta') }}" required>
+                            <div id="mensajePrecio" style="color: red;"></div>
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label">Imagen</label>
+                            <input accept="image/jpeg" type="file" class="form-control" id="imagen" name="imagen" accept="image/jpeg" required>
+                            
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="estado" class="form-label">Estado (Disponibilidad)</label>
+                            <select name="estado" id="estado" class="form-control" required>
+                                <option value="1" {{ old('estado') == 1 ? 'selected' : '' }}>Disponible</option>
+                                <option value="0" {{ old('estado') == 0 ? 'selected' : '' }}>No Disponible</option>
+                            </select>
+                            
+                        </div>
+                    
+                        <button type="submit" class="btn" style="background-color: #1b3039; color: white;">Crear Producto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Script cargado correctamente.");
+    
+            document.getElementById("formulario-producto").addEventListener("submit", function (event) {
+                var precio = document.getElementById("precio_venta").value;
+                var nomProducto = document.getElementById("nom_producto").value;
+                var descripcion = document.getElementById("descripcion").value;
+    
+                // Validar longitud del nombre del producto
+                if (nomProducto.length > 50) {
+                    document.getElementById("mensajeNombre").innerHTML = "50 caracteres como máximo";
+                    event.preventDefault();
+                    return;
+                }else {
+                    document.getElementById("mensajeNombre").innerHTML = "";
+                }
+    
+                // Validar longitud de la descripción
+                if (descripcion.length > 80) {
+                    document.getElementById("mensajeDescripcion").innerHTML = "80 caracteres como máximo";
+                    event.preventDefault();
+                    return;
+                }else {
+                    document.getElementById("mensajeDescripcion").innerHTML = "";
+                }
+    
+                // Validar precio
+                if (isNaN(precio) || parseFloat(precio) < 0) {
+                    document.getElementById("mensajePrecio").innerHTML = "El precio no puede ser negativo";
+                    event.preventDefault(); // Evitar que el formulario se envíe si la validación falla
+                    return;
+                } else {
+                    document.getElementById("mensajePrecio").innerHTML = "";
+                }
+            });
+    
+            // Función para mostrar mensajes de error
+            function mostrarError(mensaje) {
+                // Muestra el mensaje de error en el contenedor
+                document.getElementById("mensajesError").innerHTML = mensaje;
+            }
+        });
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous">
-    </script>
+        crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 </body>

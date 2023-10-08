@@ -69,16 +69,16 @@
                         <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="">Estadísticas</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Categorias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Ver Productos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.form') }}">Agregar Productos</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Productos</a>
                     </li>
                 
                     <li class="nav-item dropdown">
@@ -105,47 +105,66 @@
                         {{ session('success') }}
                 </div>
         @endif
-        <form action="{{ route('productos.guardar') }}" method="POST" enctype="multipart/form-data">
+        <form id="formulario-producto" action="{{ route('productos.guardar') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="nom_producto" class="form-label">Nombre del Producto</label>
-                <input type="text" name="nom_producto" id="nom_producto" class="form-control" required>
+                <input type="text" name="nom_producto" id="nom_producto" class="form-control" value="{{ old('nom_producto') }}" required>
+                @error('nom_producto')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
+        
             <div class="form-group">
-                <label for="id_categoria" class="form-label">Categoria</label>
+                <label for="id_categoria" class="form-label">Categoría</label>
                 <select name="id_categoria" id="id_categoria" class="form-control" required>
                     @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id_categoria }}">{{ $categoria->nom_categoria }}</option>
+                        <option value="{{ $categoria->id_categoria }}" {{ old('id_categoria') == $categoria->id_categoria ? 'selected' : '' }}>
+                            {{ $categoria->nom_categoria }}
+                        </option>
                     @endforeach
                 </select>
+                @error('id_categoria')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
+        
             <div class="form-group">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
+                <textarea name="descripcion" id="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
+                @error('descripcion')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
+        
             <div class="form-group">
                 <label for="precio_venta" class="form-label">Precio de Venta</label>
-                <input type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.01" required>
+                <input type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.01" value="{{ old('precio_venta') }}" required>
+                @error('precio_venta')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
+        
             <div class="mb-3">
                 <label for="imagen" class="form-label">Imagen</label>
                 <input accept="image/jpeg" type="file" class="form-control" id="imagen" name="imagen" accept="image/jpeg" required>
+                @error('imagen')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
+        
             <div class="form-group">
                 <label for="estado" class="form-label">Estado (Disponibilidad)</label>
                 <select name="estado" id="estado" class="form-control" required>
-                    <option value="1">Disponible</option>
-                    <option value="0">No Disponible</option>
+                    <option value="1" {{ old('estado') == 1 ? 'selected' : '' }}>Disponible</option>
+                    <option value="0" {{ old('estado') == 0 ? 'selected' : '' }}>No Disponible</option>
                 </select>
+                @error('estado')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
-
-            <button type="submit" class="btn"style="background-color: #1b3039;
-            color: white;">Crear Producto</button>
+        
+            <button type="submit" class="btn" style="background-color: #1b3039; color: white;">Crear Producto</button>
         </form>
         
     </div>
