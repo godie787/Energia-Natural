@@ -8,6 +8,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\UsuarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +68,8 @@ Route::middleware(['auth', 'checkRole:2'])->group(function (){
     //eliminar categorias
     Route::delete('/api/categorias/{id}', 'App\Http\Controllers\CategoriaController@eliminarCategoria')->name('api.categorias.eliminar');
 
+    //vista index usuarios
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 });
 
 
