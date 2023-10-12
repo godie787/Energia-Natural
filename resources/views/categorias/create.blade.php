@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <title>Energia Natural</title>
     <style>
         body {
@@ -21,7 +23,8 @@
 
 
         .form-container {
-            max-width: 600px;
+            max-width: 800px;
+            
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -133,8 +136,46 @@
                                 <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#editarCategoriasModal">
                                     Editar Categorías
                                 </button>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#eliminarCategoriasModal">
+                                    Eliminar categorías
+                                </button>
                             </div>
                         </form>
+            </div>
+            <div class="modal fade" id="editarCategoriasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Categorías</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Dropdown para seleccionar la categoría -->
+                            <div class="mb-3">
+                                <label for="categoriasDropdown" class="form-label">Seleccionar Categoría</label>
+                                <select id="categoriasDropdown" class="form-select" onchange="cargarDetallesCategoria(this.value)">
+                                    <!-- Aquí se cargarán las opciones de categorías con JavaScript -->
+                                </select>
+                            </div>
+            
+                            <!-- Formulario para editar categoría -->
+                            <form id="editarCategoriaForm">
+                                <!-- Campos de formulario para la edición -->
+                                <div class="form-group">
+                                    <label for="nom_categoria_editar" class="form-label">Nombre de la Categoría:</label>
+                                    <input type="text" name="nom_categoria_editar" id="nom_categoria_editar" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcion_editar" class="form-label">Descripción:</label>
+                                    <textarea name="descripcion_editar" id="descripcion_editar" class="form-control"></textarea>
+                                </div>
+            
+                                <!-- Botón para guardar cambios -->
+                                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal fade" id="existingCategoriesModal" tabindex="-1" aria-labelledby="existingCategoriesModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -158,8 +199,117 @@
         </section>
     @endauth
 
+<!-- Script JavaScript y jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Función para cargar las categorías en el dropdown
+    function cargarCategorias() {
+        // Hacer una petición AJAX para obtener las categorías desde el servidor
+        $.ajax({
+            url: '{{ route("api.categorias") }}',
+            method: 'GET',
+            success: function (data) {
+                // Limpiar el dropdown antes de agregar nuevas opciones
+                $('#categoriasDropdown').empty();
+
+                // Agregar la opción por defecto al dropdown
+                $('#categoriasDropdown').append($('<option>', {
+                    value: '',
+                    text: 'Seleccionar categoría'
+                }));
+                // Agregar las nuevas opciones al dropdown
+                data.forEach(function (categoria) {
+                    $('#categoriasDropdown').append($('<option>', {
+                        value: categoria.id_categoria,
+                        text: categoria.nom_categoria
+                    }));
+                });
+            },
+            error: function (error) {
+                console.error('Error al cargar las categorías:', error);
+            }
+        });
+    }
+    function cargarDetallesCategoria(categoriaId) {
+        $.ajax({
+            url: '/api/categorias/' + categoriaId, // Cambia la URL según tu configuración
+            type: 'GET',
+            success: function (data) {
+                // Mostrar los detalles en el formulario de edición
+                $('#nom_categoria_editar').val(data.nom_categoria);
+                $('#descripcion_editar').val(data.descripcion);
+            },
+            error: function (error) {
+                console.log('Error al cargar detalles de la categoría:', error);
+            }
+        });
+    }
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    function guardarCambios() {
+        var categoriaId = $('#categoriasDropdown').val();
+
+        if (!categoriaId) {
+            // Utilizar SweetAlert para mostrar un mensaje de error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, selecciona una categoría antes de guardar los cambios.',
+            });
+            return;
+        }
+
+        var nomCategoria = $('#nom_categoria_editar').val();
+        var descripcion = $('#descripcion_editar').val();
+
+        $.ajax({
+            url: '{{ route("api.categorias.guardar") }}',
+            method: 'POST',
+            data: {
+                id_categoria: categoriaId,
+                nom_categoria: nomCategoria,
+                descripcion: descripcion,
+                _token: csrfToken
+            },
+            success: function (response) {
+                console.log('Respuesta exitosa:', response);
+
+                // Utilizar SweetAlert para mostrar un mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Cambios guardados con éxito',
+                }).then(() => {
+                    // Cerrar el modal
+                    $('#editarCategoriasModal').modal('hide');
+
+                    // Opcional: Recargar la página para asegurarte de que los cambios se reflejen
+                    location.reload(true);
+                });
+            },
+            error: function (error) {
+                console.error('Error al guardar los cambios:', error);
+
+                // Utilizar SweetAlert para mostrar un mensaje de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al guardar los cambios. Por favor, inténtalo de nuevo.',
+                });
+            }
+        });
+    }
+
+
+    // Cuando se abre el modal, cargar las categorías
+    $('#editarCategoriasModal').on('shown.bs.modal', function (e) {
+        cargarCategorias();
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

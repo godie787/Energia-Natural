@@ -22,15 +22,18 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom_usuario' => 'required|unique:administrador,nom_usuario',
+            'nom_usuario' => 'required|unique:usuario,nom_usuario',
             'nombre' => 'required',
             'apellido' => 'required',
-            'rut' => 'required|unique:administrador,rut',
-            'correo' => 'required|unique:administrador,correo',
+            'rut' => 'required|unique:usuario,rut',
+            'correo' => 'required|unique:usuario,correo',
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
+            'fono' => 'nullable', // Añadido para permitir valores nulos
+            'direccion' => 'nullable', // Añadido para permitir valores nulos
         ];
     }
+
 
     /**
      * Get the error messages for the defined validation rules.
@@ -52,6 +55,9 @@ class RegisterRequest extends FormRequest
             'password.min' => 'La contraseña debe tener al menos :min caracteres.',
             'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria.',
             'password_confirmation.same' => 'La confirmación de la contraseña no coincide con la contraseña.',
+            'fono.nullable' => 'El teléfono debe ser nulo o estar en un formato válido.',
+            'direccion.nullable' => 'La dirección debe ser nula o estar en un formato válido.',
         ];
     }
+
 }

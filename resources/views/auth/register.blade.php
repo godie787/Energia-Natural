@@ -95,7 +95,15 @@
                         <div class="form-outline mb-2">
                           <label class="form-label" for="form2Example27">Confirmar contraseña</label>
                           <input type="password" id="password_confirmation" name="password_confirmation" class="form-control form-control-lg" />
-                          
+                        <div class="form-outline mb-2">
+                            <label class="form-label" for="fono">Teléfono (opcional)</label>
+                            <input value="{{ old('fono') }}" type="text" id="fono" name="fono" class="form-control form-control-lg" />
+                        </div>
+                    
+                        <div class="form-outline mb-2">
+                            <label class="form-label" for="direccion">Dirección (opcional)</label>
+                            <input value="{{ old('direccion') }}" type="text" id="direccion" name="direccion" class="form-control form-control-lg" />
+                        </div>
                       </div>
                         <div class="form-outline mb-2">
                           <label class="form-label" for="correo">Email</label>

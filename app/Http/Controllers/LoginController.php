@@ -36,8 +36,13 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        Log::info('Usuario autenticado correctamente:', ['user_id' => $user->id, 'nombre' => $user->nombre]);
+        if ($user->rol ==1){
+            return redirect()->route('tienda.index');
+        }elseif ($user->rol ==2){
+            return redirect()->route('home');
+        }
+        //Log::info('Usuario autenticado correctamente:', ['user_id' => $user->id, 'nombre' => $user->nombre]);
 
-        return view('home.index', ['user' => $user]);
+        //return view('home.index', ['user' => $user]);
     }
 }
