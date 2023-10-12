@@ -89,41 +89,62 @@ class CategoriaController extends Controller
 
 
     public function guardarCambiosCategorias(Request $request)
+    {
+        try {
+            // Validar los datos recibidos
+            $validator = Validator::make($request->all(), [
+                'nom_categoria' => 'required|string|max:50',
+                'descripcion' => 'string|max:100|nullable',
+            ]);
+
+            // Verificar si hay errores de validación
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 422);
+            }
+
+            // Obtener el ID de la categoría desde la solicitud
+            $categoriaId = $request->input('id_categoria');
+
+            // Encontrar la categoría en la base de datos
+            $categoria = Categoria::find($categoriaId);
+
+            // Verificar si la categoría existe
+            if ($categoria) {
+                // Actualizar los campos
+                $categoria->nom_categoria = $request->input('nom_categoria');
+                $categoria->descripcion = $request->input('descripcion');
+                $categoria->save();
+
+                // Devolver una respuesta de éxito
+                return response()->json(['message' => 'Cambios guardados correctamente']);
+            } else {
+                // Manejar el caso en que la categoría no existe
+                return response()->json(['error' => 'La categoría no existe'], 404);
+            }
+        } catch (\Exception $e) {
+            // Manejar cualquier excepción
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function eliminarCategoria($id)
 {
-    try {
-        // Validar los datos recibidos
-        $validator = Validator::make($request->all(), [
-            'nom_categoria' => 'required|string|max:50',
-            'descripcion' => 'string|max:100|nullable',
-        ]);
+    // Encuentra la categoría por su ID
+    $categoria = Categoria::find($id);
 
-        // Verificar si hay errores de validación
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+    // Verifica si la categoría existe
+    if ($categoria) {
+        // Verifica si hay productos asociados a la categoría
+        if ($categoria->productos()->count() > 0) {
+            // Hay productos asociados, no se puede eliminar
+            return response()->json(['error' => 'No se puede eliminar la categoría porque tiene productos asociados'], 422);
         }
 
-        // Obtener el ID de la categoría desde la solicitud
-        $categoriaId = $request->input('id_categoria');
+        // Elimina la categoría
+        $categoria->delete();
 
-        // Encontrar la categoría en la base de datos
-        $categoria = Categoria::find($categoriaId);
-
-        // Verificar si la categoría existe
-        if ($categoria) {
-            // Actualizar los campos
-            $categoria->nom_categoria = $request->input('nom_categoria');
-            $categoria->descripcion = $request->input('descripcion');
-            $categoria->save();
-
-            // Devolver una respuesta de éxito
-            return response()->json(['message' => 'Cambios guardados correctamente']);
-        } else {
-            // Manejar el caso en que la categoría no existe
-            return response()->json(['error' => 'La categoría no existe'], 404);
-        }
-    } catch (\Exception $e) {
-        // Manejar cualquier excepción
-        return response()->json(['error' => $e->getMessage()], 500);
+        // Devuelve una respuesta exitosa
+        return response()->json(['message' => 'Categoría eliminada correctamente']);
     }
 }
+
 }

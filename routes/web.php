@@ -64,6 +64,9 @@ Route::middleware(['auth', 'checkRole:2'])->group(function (){
     Route::get('/api/categorias', [CategoriaController::class, 'obtenerCategorias'])->name('api.categorias');
     // Guardar cambios en categorías
     Route::post('/api/categorias/guardar', [CategoriaController::class, 'guardarCambiosCategorias'])->name('api.categorias.guardar');
+    //eliminar categorias
+    Route::delete('/api/categorias/{id}', 'App\Http\Controllers\CategoriaController@eliminarCategoria')->name('api.categorias.eliminar');
+
 });
 
 
