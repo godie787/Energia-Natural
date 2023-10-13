@@ -70,6 +70,15 @@ Route::middleware(['auth', 'checkRole:2'])->group(function (){
 
     //vista index usuarios
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+    //
+    Route::get('/usuarios/{rut}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/usuarios/{rut}', [UsuarioController::class, 'update'])->name('usuarios.update');
+    Route::delete('/usuarios/{rut}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+    //busqueda por nombre de usuarios
+    Route::get('/usuarios/search', [UsuarioController::class, 'search'])->name('usuarios.search');
+
+
+
 });
 
 

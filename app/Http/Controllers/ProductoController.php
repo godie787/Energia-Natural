@@ -66,7 +66,13 @@ class ProductoController extends Controller
         $categorias = Categoria::all();
 
         $productos = Producto::when($request->has('search_nombre'), function ($query) use ($request) {
-                $query->where('nom_producto', 'like', '%' . $request->input('search_nombre') . '%');
+                $query->where('nom_producto', 'like', '%' . $request->input('search_nombre') . '%')
+                      ->orWhere('id_producto', 'like', '%' . $request->input('search_nombre') . '%')
+                      ->orWhere('id_categoria', 'like', '%' . $request->input('search_nombre') . '%')
+                      ->orWhere('descripcion', 'like', '%' . $request->input('search_nombre') . '%')
+                      ->orWhere('precio_venta', 'like', '%' . $request->input('search_nombre') . '%')
+                      ->orWhere('estado', 'like', '%' . $request->input('search_nombre') . '%');
+                      
             })
             ->when($request->has('search_categoria') && $request->input('search_categoria') !== 'all', function ($query) use ($request) {
                 $query->where('id_categoria', $request->input('search_categoria'));
