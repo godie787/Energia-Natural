@@ -1,142 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Energia Natural</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- REFERENCIAS-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{('css/styles.css')}}">
-  <style>
-    body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url('{{ asset("images/fondo.jpg") }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-    }
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Energia Natural</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (para iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #a8edea, #fed6e3); /* Degradado de colores frescos */
+            color: #4a4a4a;
+            background-attachment: fixed;
+        }
 
-  </style>
+        header {
+            background-color: #343a40; /* Color gris claro */
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .instagram-logo img {
+            max-height: 30px;
+            cursor: pointer;
+        }
+
+        .brand img {
+            max-height: 40px;
+            margin-right: 10px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: #42CE73; /* Color gris azulado */
+            border-color: #42CE73;
+        }
+
+        .btn-cart {
+            margin-right: 20px; /* Ajusta el margen derecho del botón del carrito según sea necesario */
+            color: red;
+        }
+
+        .btn:hover {
+            background-color: #42CE73; /* Color gris azulado más oscuro al pasar el ratón */
+            border-color: #3d312e;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color: #4a4a4a;
+            transition: transform 0.3s ease;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none; /* Evita la línea divisoria en el último elemento */
+        }
+
+        .dropdown-item:hover {
+            transform: scale(1.05); /* Aumentamos ligeramente el tamaño al pasar el puntero */
+        }
+
+        .divider {
+            border-left: 1px solid white;
+            height: 20px; /* Ajusta la altura según tus necesidades */
+            margin: 0 10px; /* Ajusta el margen según tus necesidades */
+        }
+
+        .btn-white-margin {
+            color: #ffffff; /* Color blanco */
+            margin-left: 10px;
+            margin-right: 30px; /* Ajusta el margen derecho según tus necesidades */
+        }
+
+        .btn-no-bg-text {
+            background-color: transparent; /* Fondo transparente */
+            border: none; /* Sin borde */
+            color: white; /* Color del texto */
+        }
+
+        .footer {
+            background-color: #343a40; /* Color gris claro */
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000; /* Ajusta el índice z para que esté por encima de otros elementos */
+        }
+
+        .login-container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom:100px
+        }
+
+        .login-container h3 {
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+        }
+
+        .login-container label {
+            color: #4a4a4a;
+            font-size: 14px; 
+        }
+
+        .login-container .form-control {
+            margin-bottom: 10px;
+            font-size:14px
+        }
+
+        .login-container .btn-primary {
+            background-color: #42CE73;
+            color: #eceff1;
+            font-size: 20px;
+            width: 100%;
+        }
+
+        .login-container .btn-primary:hover {
+            background-color: #42CE73;
+        }
+
+        .login-container a {
+            color: #eceff1;
+            font-size: 20px;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-  <header class="header">
-    <div class="logo">
-        <img src="{{asset('images/logo_empresa.JPG')}}" alt="Logo de la marca">
-    </div>
-    <nav>
-       <ul class="nav-links">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Ver Tienda</a>
-          </li>
-        </ul>        
-    </nav>
-    <a class="btn" href="#"><button>Contacto</button></a>
-</header>
-    <section class="">
-        <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-              <div class="card" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                <div class="row g-0">
-                  <div class="col-md-6 col-lg-5 d-none d-md-block text-center"
-                  style="background-color: #1b3039; ">
-                    <img src="{{asset('images/logo_empresa.JPG')}}"
-                      alt="Cuarzos energía natural" class="img-fluid w-80 mx-auto rounded-circle"
-                      style="margin-top:220px; max-width: 400px; height: auto; " />
-                  </div>
-                  <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                    <div class="card-body p-4 p-lg-5 text-black">
-      
-                      <form method="POST" action="/register" >
-                        @csrf
-                        @include('layouts.partials.messages')
-      
-                        <div class="d-flex align-items-center mb-3 pb-1">
-                          <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                        </div>
-      
-                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Crear cuenta</h3>
+    <header>
+        <div>
+        </div>
+        <div class="header-content">
+            <div class="social-dropdown">
+                <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
+                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
+                </a>
+            </div>
+            <div class="divider"></div>
+        </div>
+    </header>
 
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="rut">Rut (sin puntos ni guión)</label>
-                            <input value="{{ old('rut') }}"type="text" id="rut" name ="rut" class="form-control form-control-lg" />
-                            
-                        </div>
+    <div class="container mt-4">
+        <div class="login-container p-4">
+          <form method="POST" action="/register" >
+            @csrf
+            @include('layouts.partials.messages')
 
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="nom_usuario">Nombre de Usuario</label>
-                            <input value="{{ old('nom_usuario') }}" type="text" id="nom_usuario"name ="nom_usuario" class="form-control form-control-lg" />
-                            
-                        </div>
+            <h3 class="fw-normal mb-3 pb-2" style="letter-spacing: 1px;">Crear cuenta</h3>
 
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="nombre">Nombre</label>
-                            <input value="{{ old('nombre') }}"type="text" id="nombre" name ="nombre"class="form-control form-control-lg" />
-                            
-                        </div>
+            <div class="form-outline mb-2">
+                <label class="form-label" for="rut">Rut (sin puntos ni guión)</label>
+                <input value="{{ old('rut') }}"type="text" id="rut" name ="rut" class="form-control form-control-lg" />
+                
+            </div>
 
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="apellido">Apellido</label>
-                            <input value="{{ old('apellido') }}"type="text" id="apellido"name="apellido" class="form-control form-control-lg" />
-                            
-                        </div>
+            <div class="form-outline mb-2">
+                <label class="form-label" for="nom_usuario">Nombre de Usuario</label>
+                <input value="{{ old('nom_usuario') }}" type="text" id="nom_usuario"name ="nom_usuario" class="form-control form-control-lg" />
+                
+            </div>
 
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="form2Example27">Contraseña</label>
-                            <input value="{{ old('password') }}"type="password" id="password" name="password" class="form-control form-control-lg" />
-                            
-                        </div>
-                        <div class="form-outline mb-2">
-                          <label class="form-label" for="form2Example27">Confirmar contraseña</label>
-                          <input type="password" id="password_confirmation" name="password_confirmation" class="form-control form-control-lg" />
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="fono">Teléfono (opcional)</label>
-                            <input value="{{ old('fono') }}" type="text" id="fono" name="fono" class="form-control form-control-lg" />
-                        </div>
-                    
-                        <div class="form-outline mb-2">
-                            <label class="form-label" for="direccion">Dirección (opcional)</label>
-                            <input value="{{ old('direccion') }}" type="text" id="direccion" name="direccion" class="form-control form-control-lg" />
-                        </div>
-                      </div>
-                        <div class="form-outline mb-2">
-                          <label class="form-label" for="correo">Email</label>
-                          <input value="{{ old('correo') }}" type="email" id="correo" name="correo"class="form-control form-control-lg" />
-                          
-                        </div>
-                        <div class="pt-1 mb-4">
-                          <button style="background-color: #1b3039; color: #eceff1; font-size:20px;" 
-                          class="btn btn-lg btn-block" type="submit">Registrarse</button>
+            <div class="form-outline mb-2">
+                <label class="form-label" for="nombre">Nombre</label>
+                <input value="{{ old('nombre') }}"type="text" id="nombre" name ="nombre"class="form-control form-control-lg" />
+                
+            </div>
 
-                          <a href="/login"style="background-color: #1b3039; color: #eceff1; font-size:20px;" 
-                            class="btn btn-lg btn-block" type="button">Login</a>
-                        </div>
-                      </form>
-      
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="form-outline mb-2">
+                <label class="form-label" for="apellido">Apellido</label>
+                <input value="{{ old('apellido') }}"type="text" id="apellido"name="apellido" class="form-control form-control-lg" />
+                
+            </div>
+
+            <div class="form-outline mb-2">
+                <label class="form-label" for="form2Example27">Contraseña</label>
+                <input value="{{ old('password') }}"type="password" id="password" name="password" class="form-control form-control-lg" />
+                
+            </div>
+            <div class="form-outline mb-2">
+              <label class="form-label" for="form2Example27">Confirmar contraseña</label>
+              <input type="password" id="password_confirmation" name="password_confirmation" class="form-control form-control-lg" />
+            <div class="form-outline mb-2">
+                <label class="form-label" for="fono">Teléfono (opcional)</label>
+                <input value="{{ old('fono') }}" type="text" id="fono" name="fono" class="form-control form-control-lg" />
+            </div>
+        
+            <div class="form-outline mb-2">
+                <label class="form-label" for="direccion">Dirección (opcional)</label>
+                <input value="{{ old('direccion') }}" type="text" id="direccion" name="direccion" class="form-control form-control-lg" />
             </div>
           </div>
+            <div class="form-outline mb-2">
+              <label class="form-label" for="correo">Email</label>
+              <input value="{{ old('correo') }}" type="email" id="correo" name="correo"class="form-control form-control-lg" />
+              
+            </div>
+            <div class="pt-2">
+              <button style="background-color: #42CE73; color: #eceff1; font-size:18px;" class="btn btn-lg btn-block" type="submit">Registrarse</button>
+              <a href="/login" style="background-color: #42CE73; color: #eceff1; font-size:18px;" class="btn btn-lg btn-block" type="button">Login</a>
+          </div>
+          </form>
         </div>
-      </section>
+    </div>
 
+    <div class="footer">
+        © 2023 Cuarzos Energía Natural - Tienda en línea
+    </div>
 
-
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-  </script>
+    <!-- Bootstrap JS (opcional, dependiendo de tus necesidades) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome JS (para iconos) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            // Si el evento de pageshow es causado por retroceder en el historial
+            if (event.persisted) {
+                location.reload();
+            }
+        });
+    </script>
 </body>
 
 </html>
+
+
