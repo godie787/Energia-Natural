@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Cuarzos Energía Natural - Tienda en línea</title>
+    <title>Cuarzos Energía Natural</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #a8edea, #fed6e3); /* Degradado de colores frescos */
+           
             color: #4a4a4a;
             background-attachment: fixed;
         }
@@ -83,13 +83,20 @@
 
 
         .product-card {
-            border: none; /* Elimina el borde original */
+            border: 1px solid #ddd;
+            text-align: center;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 5px;
             margin-bottom: 20px;
             background-color: #f8f9fa; /* Fondo gris claro */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra difuminada gris */
             transition: box-shadow 0.3s ease;
+        }
+        .precio {
+            font-weight: bold; /* Opcional: Darle más énfasis al precio */
+            margin-top: 20px; /* Ajusta según sea necesario */
+            font-size: 14px;
+            margin-bottom: 3px;
         }
 
         .product-card:hover {
@@ -107,6 +114,7 @@
         .btn {
             background-color: #42CE73; /* Color gris azulado */
             border-color: #42CE73;
+            
         }
         .btn-cart {
             margin-right: 20px; /* Ajusta el margen derecho del botón del carrito según sea necesario */
@@ -204,6 +212,12 @@
             width: 100%;
             z-index: 1000; /* Ajusta el índice z para que esté por encima de otros elementos */
         }
+        .card-image {
+            width: 100%;
+            height: 200px; /* Ajusta la altura deseada */
+            object-fit: cover; /* Esto recortará la imagen para que se ajuste al contenedor manteniendo las proporciones */
+        }
+        
 
     </style>
 </head>
@@ -231,7 +245,7 @@
                 </div>
             </div>
             <div class="divider"></div>
-            <a href="#" class="btn-white-margin"><i class="fas fa-shopping-cart"></i></a>
+            <a href="/carrito" class="btn-white-margin"><i id="carrito-icon" class="fas fa-shopping-cart"></i></a>
 
         </div>
     </header>
@@ -239,7 +253,7 @@
     
     
     
-
+    <div id="numeroCarrito" class="alert alert-info">0</div>
     <!-- Carrusel de imágenes -->
     <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -265,65 +279,51 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 1">
-                    <h5>Producto 1</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
+            @foreach ($productos as $producto)
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" class="card-image">
+                        <h5>{{ $producto->nom_producto }}</h5>
+                        <p class="precio">${{ number_format($producto->precio_venta, 0, '.', ',') }}</p>
+
+                        @if ($producto->estado == 1)
+                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}')">
+                                <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                            </button>
+                        @else
+                            <button class="btn" style="margin-top: 5px; color:red" disabled>No disponible</button>
+                        @endif
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 2">
-                    <h5>Producto 2</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 3">
-                    <h5>Producto 3</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 1">
-                    <h5>Producto 1</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 1">
-                    <h5>Producto 1</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="product-card">
-                    <img src="{{ asset('images/cristal de cuarzo.JPG') }}" alt="Producto 1">
-                    <h5>Producto 1</h5>
-                    <p>Descripción corta del producto.</p>
-                    <button class="btn"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
-
+    <div id="carrito"></div>
     <div class="footer">
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
+
+    <!-- Dentro de tu archivo index.blade.php -->
+
+    <script>
+        function agregarAlCarrito(productoId, nombre, precio) {
+            // Lógica para agregar al carrito del usuario (puede ser un array en JavaScript)
+            const producto = { id: productoId, nombre: nombre, precio: precio };
+            // Guardar el producto en el carrito (puede ser en localStorage o en una variable global)
+            // Aquí se usa localStorage como ejemplo
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            carrito.push(producto);
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+
+            // Actualizar el número de productos en el carrito
+            const numeroCarrito = document.getElementById('numeroCarrito');
+            numeroCarrito.innerText = carrito.length;
+        }
+    </script>
 
     <!-- Bootstrap JS (opcional, dependiendo de tus necesidades) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Font Awesome JS (para iconos) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
-
 </html>

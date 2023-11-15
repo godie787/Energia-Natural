@@ -38,6 +38,11 @@ Route::get('/logout', [LogoutController::class, 'logout']);
 //rutas cliente
 Route::middleware(['auth', 'checkRole:1'])->group(function () {
     Route::get('/tienda/index', [TiendaController::class, 'index'])->name('tienda.index');
+    Route::get('/tienda', [ProductoController::class, 'mostrarTienda'])->name('tienda');
+
+    Route::get('/carrito', [ProductoController::class, 'verCarrito']);
+
+
 });
 
 Route::middleware(['auth', 'checkRole:2'])->group(function (){

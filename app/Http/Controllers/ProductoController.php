@@ -8,6 +8,8 @@ use App\Models\Categoria;
 
 class ProductoController extends Controller
 {
+
+    
     public function update(Request $request, $id_producto)
     {
         // Aquí obtendremos el producto que se va a actualizar
@@ -127,4 +129,25 @@ class ProductoController extends Controller
         return back();
 
     }
+    //mostrar productos en la tienda
+    public function mostrarTienda()
+    {
+        $user = auth()->user();
+        $categorias = Categoria::all();
+        $productos = Producto::all();
+
+        return view('tienda.index', compact('productos', 'user', 'categorias'));
+    }
+
+    // En el método que muestra la vista del carrito
+    public function verCarrito()
+    {
+        // Obtén los productos del carrito (puede ser desde el almacenamiento local o la base de datos)
+        $carrito = json_decode(request()->session()->get('carrito'), true) ?? [];
+
+        // Pasa los productos a la vista
+        return view('tienda.carrito', ['productos' => $carrito]);
+    }
+
+
 }

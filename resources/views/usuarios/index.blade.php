@@ -82,7 +82,7 @@
                         <a class="nav-link" href="">Estadísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Usuarios</a>
+                        <a class="nav-link" href="{{route('usuarios.index')}}">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('categorias.create') }}">Categorías</a>
