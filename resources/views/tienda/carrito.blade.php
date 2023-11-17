@@ -5,30 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Carrito de Compras</title>
+    <title>Cuarzos Energía Natural</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif; /* Cambié la fuente a Poppins */
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
         }
 
         header {
-            background-color: transparent; /* Quité el fondo gris */
-            color: black; /* Texto "carro de compras" en verde */
+            background-color: transparent;
+            color: black;
             text-align: center;
             padding: 1em 0;
             position: relative;
         }
 
         .header-line {
-            width: 50%; /* Ajusté el ancho al 50% */
-            margin-bottom: 10px; /* Espaciado inferior */
-            border: 1px solid #42CE73; /* Cambié el color a un verde */
+            width: 50%;
+            margin-bottom: 10px;
+            border: 1px solid #9f3d6b;
         }
-
-        
 
         main {
             display: flex;
@@ -37,7 +35,8 @@
         }
 
         .carrito {
-            width: 60%;
+            width: 40%;
+            margin-left: 10%;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -46,14 +45,39 @@
         }
 
         .detalle {
-            width: 35%;
+            width: 30%; /* Ajusté el ancho del detalle del carrito */
+            margin-right: 10%;
+            height: 100%;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 2px;
-            position: relative; /* Añade posición relativa al contenedor detalle */
-            min-height: 100px; /* Ajusta según sea necesario */
+            border: 1px solid #ddd; /* Fijo el ancho del borde */
+            border-radius: 5px;
+            position: relative;
+            min-height: 150px;
+            
+        }
+        .detalle-content {
+            margin-right: 0; /* Establece el margen derecho en 0 para igualar ambos lados */
+             /* Establece el margen derecho en 0 para igualar ambos lados */
+        }
+
+        .detalle h2 {
+            margin-bottom: 10px;
+            
+        }
+
+        #detalle-carrito {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+
+        .acciones {
+            position: relative;
+            text-align: center;
+            margin-top: 10px;
+            
         }
 
         .producto {
@@ -61,8 +85,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            border-bottom: 1px solid #eee; /* Línea divisoria entre productos */
-            padding-bottom: 10px; /* Espaciado entre productos */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
 
         img {
@@ -70,50 +94,21 @@
             max-height: 80px;
             margin-right: 10px;
         }
-        .boton-eliminar {
-            background-color: #ff0000; /* Fondo rojo */
-            color: #fff; /* Texto blanco */
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
 
-        .subtotal {
-            font-weight: bold;
-            font-size: 1.2em; /* Aumenté el tamaño del texto */
-            color: #333; /* Color del texto */
-        }
 
-        .total {
-            font-weight: bold;
-            font-size: 1.5em; /* Tamaño del texto */
-            color: #42CE73; /* Cambié el color a verde */
-            margin-top: 20px; /* Espaciado arriba */
-        }
+
 
         button {
             padding: 10px;
-            background-color: red; /* Cambié el color a verde */
+            background-color: red;
             color: #fff;
             border: none;
             cursor: pointer;
-            border-radius: 5px; /* Borde redondeado */
-        }
-        .acciones {
-            /* Otras propiedades de estilo para el contenedor de acciones */
-            position: absolute;;
-            bottom: 0;
-            width: 100%;
-            text-align: center; /* Centra los botones horizontalmente */
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; /* Alinea los botones a la derecha */
-            margin-bottom: 15px; /* Empuja los botones hacia la parte inferior */
+            border-radius: 5px;
         }
 
         .acciones button {
-            margin-top: 10px; /* Espaciado entre los botones */
+            margin-top: 10px;
             width: 80%;
             border-radius: 5px;
             padding: 10px;
@@ -122,7 +117,7 @@
         }
 
         .acciones button.proceder {
-            background-color: #42CE73;
+            background-color: #9f3d6b;
             color: white;
         }
 
@@ -130,17 +125,31 @@
             background-color: #808080;
             color: white;
         }
+        .footer {
+            background-color: #343a40; /* Color gris claro */
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000; /* Ajusta el índice z para que esté por encima de otros elementos */
+        }
+
         
 
     
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-x6cPX2u3FHceAmZfgzT+5XItd9nN5p8eyFfSUbqU/ZvIn32vhm6t1Yoq4uQr4kzo2E/J9FwXyXxIpH9p+at6+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
 
 <body>
     <header>
-        <h1>Carro de Compras</h1>
+        <h1 style="font-family: 'Nunito Sans', sans-serif;">Carro de Compras</h1>
         <hr class="header-line">
     </header>
 
@@ -152,7 +161,7 @@
 
         <div class="detalle">
             <h2>Detalle del Carrito</h2>
-            <div id="detalle-carrito">
+            <div class = "detalle-content" id="detalle-carrito">
                 <!-- Aquí se mostraría el detalle del carrito -->
             </div>
             <div class="acciones">
@@ -162,12 +171,15 @@
         </div>
     </main>
 
+    <div class="footer">
+        © 2023 Cuarzos Energía Natural - Tienda en línea
+    </div>
     <!-- Scripts-->
     <script>
+        const detalleCarrito = document.getElementById('detalle-carrito');
         document.addEventListener('DOMContentLoaded', function () {
             const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             const productosCarrito = document.getElementById('productos-carrito');
-            const detalleCarrito = document.getElementById('detalle-carrito');
 
             if (productosCarrito && carrito.length > 0) {
                 carrito.forEach(producto => {
@@ -175,6 +187,7 @@
                     divProducto.classList.add('producto');
 
                     const img = document.createElement('img');
+                    // Asegúrate de que la propiedad 'imagen' contenga una URL válida
                     img.src = producto.imagen;
                     img.alt = producto.nombre;
 
@@ -205,6 +218,21 @@
                 p.textContent = 'No hay productos en el carrito.';
                 productosCarrito.appendChild(p);
             }
+
+            function cargarDetalleCarrito(carrito) {
+                detalleCarrito.innerHTML = ''; // Limpiar contenido anterior
+
+                let totalCarrito = 0;
+
+                carrito.forEach(producto => {
+                    totalCarrito += parseFloat(producto.precio) || 0;
+                });
+
+                // Mostrar el total
+                const pTotal = document.createElement('p');
+                pTotal.textContent = `Total a pagar: $${totalCarrito.toFixed(2)}`;
+                detalleCarrito.appendChild(pTotal);
+            }
         });
 
         function eliminarDelCarrito(productoId, divProducto) {
@@ -221,36 +249,6 @@
             }
         }
 
-        function cargarDetalleCarrito(carrito) {
-            detalleCarrito.innerHTML = ''; // Limpiar contenido anterior
-
-            let totalCarrito = 0;
-
-            carrito.forEach(producto => {
-                const divProducto = document.createElement('div');
-                divProducto.classList.add('detalle-producto');
-
-                const pNombre = document.createElement('p');
-                pNombre.textContent = producto.nombre;
-
-                const pSubtotal = document.createElement('p');
-                const subtotal = producto.precio; // Aquí puedes agregar lógica de subtotal si es necesario
-                pSubtotal.textContent = `Subtotal: $${subtotal.toFixed(2)}`;
-
-                divProducto.appendChild(pNombre);
-                divProducto.appendChild(pSubtotal);
-
-                detalleCarrito.appendChild(divProducto);
-
-                totalCarrito += subtotal;
-            });
-
-            // Mostrar el total
-            const pTotal = document.createElement('p');
-            pTotal.textContent = `Total a pagar: $${totalCarrito.toFixed(2)}`;
-            detalleCarrito.appendChild(pTotal);
-        }
-
         function procederAlPago() {
             alert('Redirigiendo a la página de pago...');
             // Aquí puedes agregar lógica adicional para la redirección
@@ -260,6 +258,8 @@
             window.location.href = "/tienda"; // Cambia la URL según la ruta de tu tienda
         }
     </script>
+
+    
 </body>
 
 </html>

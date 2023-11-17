@@ -39,9 +39,13 @@ Route::get('/logout', [LogoutController::class, 'logout']);
 Route::middleware(['auth', 'checkRole:1'])->group(function () {
     Route::get('/tienda/index', [TiendaController::class, 'index'])->name('tienda.index');
     Route::get('/tienda', [ProductoController::class, 'mostrarTienda'])->name('tienda');
+    //ordenamiento por categoria
+    Route::get('/filtrar-productos', [ProductoController::class, 'filtrarProductos'])->name('filtrar.productos');
+    //ordenamiento por precios
+    Route::get('/ordenar-productos', [ProductoController::class, 'ordenarProductos'])->name('ordenar.productos');
 
+    //ver carrito
     Route::get('/carrito', [ProductoController::class, 'verCarrito']);
-
 
 });
 

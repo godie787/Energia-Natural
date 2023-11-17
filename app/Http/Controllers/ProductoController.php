@@ -148,6 +148,38 @@ class ProductoController extends Controller
         // Pasa los productos a la vista
         return view('tienda.carrito', ['productos' => $carrito]);
     }
+    public function obtenerCategorias()
+    {
+        $categorias = Categoria::all(); // Obtén categorías únicas de la base de datos
+        return view('tienda.index', compact('productos', 'categorias'));
+        
+    }
+
+    //ordenar por categorias
+    public function filtrarProductos(Request $request)
+    {
+        $categoriaId = $request->input('categoria');
+        
+        // Obtén los productos según la categoría seleccionada
+        $productos = ($categoriaId) ? Producto::where('id_categoria', $categoriaId)->get() : Producto::all();
+        $categorias = Categoria::all();
+        $categoriaSeleccionada = $request->input('categoria');
+        // Pasa los productos y otras variables necesarias a la vista
+        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada'));
+    }
+
+    //ordenar por precio
+    public function ordenarProductos(Request $request)
+    {
+        $orden = $request->input('orden');
+
+        // Obtén los productos según la opción de orden seleccionada
+        $productos = ($orden == 'precioAsc') ? Producto::orderBy('precio_venta', 'asc')->get() : Producto::orderBy('precio_venta', 'desc')->get();
+        $categorias = Categoria::all();
+        $categoriaSeleccionada = $request->input('categoria');
+        // Pasa los productos y otras variables necesarias a la vista
+        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada'));
+    }
 
 
 }

@@ -12,10 +12,12 @@
     <!-- Font Awesome (para iconos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
     <!-- Estilos personalizados -->
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Nunito Sans', sans-serif;
            
             color: #4a4a4a;
             background-attachment: fixed;
@@ -55,33 +57,11 @@
             margin: 0 10px;
             font-size: 18px;
         }
-        #imageCarousel {
-            width: 70%; /* Ajusta el ancho según tus necesidades */
-            margin: auto; /* Centra el carrusel horizontalmente */
-            margin-top: 20px; /* Agrega un margen superior de 20px */
-            
-            border-radius: 10px; /* Agrega esquinas redondeadas */
-            overflow: hidden; /* Oculta cualquier contenido que se desborde */
-        }
-
-        #imageCarousel img {
-            width: 100%;
-            height: 600px; /* Ajusta la altura según tus necesidades */
-            object-fit: cover;
-            border-bottom: 2px solid #ddd; /* Línea divisoria entre las imágenes */
-        }
-
-        .carousel-inner {
-            border-radius: 8px; /* Esquinas redondeadas para el contenedor interno del carrusel */
-        }
         .container {
             margin-bottom: 70px;
             margin-top: 50px; /* Ajusta el margen superior según tus necesidades */
             overflow-y: auto;
         }
-
-
-
         .product-card {
             border: 1px solid #ddd;
             text-align: center;
@@ -112,8 +92,9 @@
         }
 
         .btn {
-            background-color: #42CE73; /* Color gris azulado */
-            border-color: #42CE73;
+            background-color: #9f3d6b; /* Color gris azulado */
+            border-color: #9f3d6b;
+            color: white;
             
         }
         .btn-cart {
@@ -122,7 +103,7 @@
         }
 
         .btn:hover {
-            background-color: #42CE73; /* Color gris azulado más oscuro al pasar el ratón */
+            background-color: #9f3d6b; /* Color gris azulado más oscuro al pasar el ratón */
             border-color: #3d312e;
         }
 
@@ -217,6 +198,74 @@
             height: 200px; /* Ajusta la altura deseada */
             object-fit: cover; /* Esto recortará la imagen para que se ajuste al contenedor manteniendo las proporciones */
         }
+        .search-section {
+            background-color: #f8f9fa; /* Color de fondo */
+            padding: 10px 0; /* Espaciado interno */
+            
+            margin-bottom: -5%;
+            
+        }
+
+        .section-title {
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 30%;
+            height: 2px;
+            background-color: #9f3d6b; /* Color de la línea horizontal */
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 10%;
+            margin-bottom: 0%;
+        }
+
+        .search-dropdown {
+            margin: 10px;
+        }
+
+        .search-select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .banner-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Ajusta la altura según tus necesidades */
+            margin-bottom: 20px; /* Espaciado inferior */
+        }
+
+        .banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-bottom: 2px solid #ddd; /* Línea divisoria entre el banner y el contenido */
+        }
+
+        .banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff; /* Color del texto */
+            font-size: 24px; /* Tamaño del texto */
+            font-weight: bold; /* Peso de la fuente */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para mejorar la legibilidad */
+        }
         
 
     </style>
@@ -249,34 +298,44 @@
 
         </div>
     </header>
-    
-    
-    
-    
-    <div id="numeroCarrito" class="alert alert-info">0</div>
-    <!-- Carrusel de imágenes -->
-    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{ asset('images/cristal de cuarzo.JPG') }}" class="d-block w-100" alt="Imagen 1">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/cuarzo rosado 2.JPG') }}" class="d-block w-100" alt="Imagen 2">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/drusa.JPG') }}" class="d-block w-100" alt="Imagen 3">
-            </div>
-            <!-- Agrega más imágenes según sea necesario -->
+    <!-- Banner con texto -->
+    <div class="banner-container">
+        <img src="{{ asset('images/banner6.jpeg') }}" class="banner" alt="Banner de Cuarzos Energía Natural">
+        <div class="banner-text">
+            <h2 style="color: #9f3d6b; font-size: 2.8em; font-weight: 300; font-family: 'Urbanist', sans-serif;  ">Cuarzos Energía Natural</h2>
+            <p style="color: #424242; font-size: 1.2em; font-weight: 250;font-family: 'Nunito Sans', sans-serif;">Eleva tu espíritu, nutre tu alma.</p>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
     </div>
+    <!-- Sección de búsqueda y filtrado -->
+    <div class="search-section">
+        <div class="container">
+            <h2 style= "font-family: 'Nunito Sans', sans-serif;" class="section-title">Explora nuestros productos</h2>
+            <div class="search-container">
+                <form id="ordenForm" action="{{ route('ordenar.productos') }}" method="GET">
+                    <label for="orderSelect">Ordenar por:</label>
+                    <select class="search-select" id="orderSelect" name="orden" onchange="submitForm()">
+                        <option value="precioAsc">Todos los Precios</option>
+                        <option value="precioAsc">Precio Ascendente</option>
+                        <option value="precioDesc">Precio Descendente</option>
+                        <!-- Agrega más opciones según sea necesario -->
+                    </select>
+                </form>
+                <form id="filtroForm" action="{{ route('filtrar.productos') }}" method="GET">
+                    <label for="categorySelect">Buscar por Categoría:</label>
+                    <select class="search-select" id="categorySelect" name="categoria" onchange="submitForme()">
+                        <option value="">Todas las Categorías</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->id_categoria }}" {{ isset($categoriaSeleccionada) && $categoria->id_categoria == $categoriaSeleccionada ? 'selected' : '' }}>
+                                {{ $categoria->nom_categoria }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <div class="row">
             @foreach ($productos as $producto)
@@ -287,7 +346,7 @@
                         <p class="precio">${{ number_format($producto->precio_venta, 0, '.', ',') }}</p>
 
                         @if ($producto->estado == 1)
-                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}')">
+                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}', '{{ asset('storage/' . $producto->imagen) }}')">
                                 <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                             </button>
                         @else
@@ -298,29 +357,35 @@
             @endforeach
         </div>
     </div>
+
+    
+
     <div id="carrito"></div>
     <div class="footer">
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
 
-    <!-- Dentro de tu archivo index.blade.php -->
-
+    <!--Ordenar por Categoria -->
     <script>
-        function agregarAlCarrito(productoId, nombre, precio) {
-            // Lógica para agregar al carrito del usuario (puede ser un array en JavaScript)
-            const producto = { id: productoId, nombre: nombre, precio: precio };
-            // Guardar el producto en el carrito (puede ser en localStorage o en una variable global)
-            // Aquí se usa localStorage como ejemplo
+        function submitForme() {
+            document.getElementById('filtroForm').submit();
+        }
+    </script>
+    <!--Ordenar por Precio -->
+    <script>
+        function submitForm() {
+            document.getElementById('ordenForm').submit();
+        }
+    </script>
+    <script>
+        function agregarAlCarrito(productoId, nombre, precio, imagen) {
+            const producto = { id: productoId, nombre: nombre, precio: precio, imagen: imagen };
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             carrito.push(producto);
             localStorage.setItem('carrito', JSON.stringify(carrito));
-
-            // Actualizar el número de productos en el carrito
-            const numeroCarrito = document.getElementById('numeroCarrito');
-            numeroCarrito.innerText = carrito.length;
         }
-    </script>
 
+    </script>
     <!-- Bootstrap JS (opcional, dependiendo de tus necesidades) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Font Awesome JS (para iconos) -->
