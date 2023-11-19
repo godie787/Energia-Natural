@@ -44,8 +44,16 @@ Route::middleware(['auth', 'checkRole:1'])->group(function () {
     //ordenamiento por precios
     Route::get('/ordenar-productos', [ProductoController::class, 'ordenarProductos'])->name('ordenar.productos');
 
+    //actualizar estado del producto cuando un cliente lo agrega al carrito
+    Route::post('/actualizar-estado-producto-agregar', [ProductoController::class, 'actualizarEstadoAgregar']);
+    Route::post('/actualizar-estado-producto-eliminar', [ProductoController::class, 'actualizarEstadoEliminar']);
     //ver carrito
     Route::get('/carrito', [ProductoController::class, 'verCarrito']);
+
+    //ver perfil y actualizar
+    Route::get('/perfil', [UsuarioController::class, 'mostrarPerfil']);
+    Route::put('/perfil', [UsuarioController::class, 'actualizarPerfil']);
+
 
 });
 

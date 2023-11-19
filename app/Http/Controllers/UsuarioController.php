@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\UpdateProfileRequest;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User; // Ajusta el modelo de usuario según tu configuración
 use Illuminate\Http\Request;
 
@@ -55,15 +56,38 @@ class UsuarioController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    
-
-
-
 
 
     public function destroy($rut)
     {
         // Lógica para eliminar el usuario con el $rut proporcionado
     }
+
+    public function mostrarPerfil()
+    {
+        // Obtén los datos del usuario actual (puedes personalizar según tu sistema de autenticación)
+        $user = auth()->user();
+        $usuarios = User::all();
+        return view('tienda.perfil', compact('usuarios', 'user'));
+    }
+    public function actualizarPerfil(UpdateProfileRequest $request) {
+        // Lógica para actualizar el perfil
+        
+        $user = auth()->user();
+        $user->nom_usuario = $request->input('nom_usuario');
+        $user->nombre = $request->input('nombre');
+        $user->direccion = $request->input('direccion');
+        $user->fono = $request->input('fono');
+        $user->correo = $request->input('correo');
+    
+        // Verifica si se proporcionó una nueva contraseña antes de actualizarla
+        
+        if ($request->filled('password')) {
+            $user->password = ($request->input('password'));
+        }
+        $user->save();
+        return redirect('/perfil')->with('success', 'Perfil actualizado correctamente');
+    }
+    
 
 }

@@ -24,21 +24,35 @@ class LoginController extends Controller
 
         Log::info('Intento de inicio de sesión: ' . json_encode(['credentials' => $credentials]));
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            Log::info('Usuario autenticado: ' . json_encode(['user_id' => $user->id_admin, 'nombre' => $user->nombre]));
+        // Obtén al usuario por nombre de usuario o correo electrónico
+        $nom_usuario = isset($credentials['nom_usuario']) ? $credentials['nom_usuario'] : null;
+        $correo = isset($credentials['correo']) ? $credentials['correo'] : null;
+
+        $user = \App\Models\User::where(function ($query) use ($nom_usuario, $correo) {
+            $query->where('nom_usuario', $nom_usuario)
+                ->orWhere('correo', $correo);
+        })->first();
+
+        // Verifica si el usuario existe y la contraseña coincide
+        if ($user && $request->password == $user->password) {
+            // Autenticar al usuario
+            Auth::login($user);
+            Log::info('Inicio de sesión exitoso: ' . json_encode(['credentials' => $credentials]));
+            // Resto del código para redirección y mensajes de éxito
             return redirect('/home')->with('success', "Bienvenido, {$user->nombre}, estás autenticado correctamente.")
                 ->header('Refresh', '0');
         } else {
-            Log::warning('Fallo de autenticación: ' . json_encode(['nom_usuario' => $request->nom_usuario]));
+            // Lógica cuando falla la autenticación
+            Log::warning('Fallo de autenticación: ' . json_encode(['credentials' => $credentials]));
             return redirect()->to('/login')->withErrors('Credenciales no válidas');
         }
-    }   
+    }
+
 
     public function authenticated(Request $request, $user)
     {
         if ($user->rol ==1){
-            return redirect()->route('tienda.index');
+            return redirect()->route('tienda');
         }elseif ($user->rol ==2){
             return redirect()->route('home');
         }

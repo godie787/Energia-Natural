@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -143,6 +144,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
 
 
 </head>
@@ -175,42 +178,58 @@
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
     <!-- Scripts-->
+    
     <script>
         const detalleCarrito = document.getElementById('detalle-carrito');
+    
+        // Declaración global de la función cargarDetalleCarrito
+        function cargarDetalleCarrito(carrito) {
+            detalleCarrito.innerHTML = ''; // Limpiar contenido anterior
+            let totalCarrito = 0;
+    
+            carrito.forEach(producto => {
+                totalCarrito += parseFloat(producto.precio) || 0;
+            });
+    
+            // Mostrar el total
+            const pTotal = document.createElement('p');
+            pTotal.textContent = `Total a pagar: $${totalCarrito.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+            detalleCarrito.appendChild(pTotal);
+        }
+    
         document.addEventListener('DOMContentLoaded', function () {
             const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             const productosCarrito = document.getElementById('productos-carrito');
-
+    
             if (productosCarrito && carrito.length > 0) {
                 carrito.forEach(producto => {
                     const divProducto = document.createElement('div');
                     divProducto.classList.add('producto');
-
+    
                     const img = document.createElement('img');
                     // Asegúrate de que la propiedad 'imagen' contenga una URL válida
                     img.src = producto.imagen;
                     img.alt = producto.nombre;
-
+    
                     const pNombre = document.createElement('p');
                     pNombre.textContent = producto.nombre;
-
+    
                     const pPrecio = document.createElement('p');
-                    pPrecio.textContent = `Precio: $${producto.precio}`;
-
+                    pPrecio.textContent = `Precio: $${parseFloat(producto.precio).toLocaleString('es-ES')}`;
                     const btnEliminar = document.createElement('button');
                     btnEliminar.innerHTML = '<i class="fas fa-trash"></i>';
                     btnEliminar.onclick = function () {
                         eliminarDelCarrito(producto.id, divProducto);
                     };
-
+    
                     divProducto.appendChild(img);
                     divProducto.appendChild(pNombre);
                     divProducto.appendChild(pPrecio);
                     divProducto.appendChild(btnEliminar);
-
+    
                     productosCarrito.appendChild(divProducto);
                 });
-
+    
                 // Actualizar el detalle del carrito al cargar la página
                 cargarDetalleCarrito(carrito);
             } else if (productosCarrito) {
@@ -218,28 +237,33 @@
                 p.textContent = 'No hay productos en el carrito.';
                 productosCarrito.appendChild(p);
             }
-
-            function cargarDetalleCarrito(carrito) {
-                detalleCarrito.innerHTML = ''; // Limpiar contenido anterior
-
-                let totalCarrito = 0;
-
-                carrito.forEach(producto => {
-                    totalCarrito += parseFloat(producto.precio) || 0;
-                });
-
-                // Mostrar el total
-                const pTotal = document.createElement('p');
-                pTotal.textContent = `Total a pagar: $${totalCarrito.toFixed(2)}`;
-                detalleCarrito.appendChild(pTotal);
-            }
         });
-
+        
         function eliminarDelCarrito(productoId, divProducto) {
+            const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+            console.log('CSRF Token:', csrfToken);
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             const productoIndex = carrito.findIndex(producto => producto.id === productoId);
 
             if (productoIndex !== -1) {
+                const producto = carrito[productoIndex];
+
+                // Obtén el token CSRF del meta tag en el head del documento
+                const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+                // Realizar la solicitud AJAX para cambiar el estado del producto al eliminarlo
+                $.ajax({
+                    type: 'POST',
+                    url: '/actualizar-estado-producto-eliminar',
+                    data: { productoId: producto.id, _token: csrfToken },
+                    success: function(response) {
+                        console.log('Éxito al actualizar el estado del producto', response);
+                    },
+                    error: function(error) {
+                        console.error('Error al actualizar el estado del producto', error);
+                    }
+                });
+
                 carrito.splice(productoIndex, 1);
                 localStorage.setItem('carrito', JSON.stringify(carrito));
                 divProducto.remove();
@@ -248,18 +272,16 @@
                 cargarDetalleCarrito(carrito);
             }
         }
-
+    
         function procederAlPago() {
             alert('Redirigiendo a la página de pago...');
             // Aquí puedes agregar lógica adicional para la redirección
         }
-
+    
         function volverATienda() {
             window.location.href = "/tienda"; // Cambia la URL según la ruta de tu tienda
         }
     </script>
-
-    
 </body>
 
 </html>

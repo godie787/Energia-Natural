@@ -19,12 +19,12 @@ class CheckRole
         }
 
         // Log para verificar si se ejecuta y qué valores tiene
-        \Log::info("Acceso no autorizado para el usuario {$user->id} (Rol: {$user->rol})");
+        \Log::info("Acceso no autorizado para el usuario {$user->nom_usuario} (Rol: {$user->rol})");
 
         // Redirigir al usuario según el rol
         switch ($user->rol) {
             case 1:
-                return redirect('/tienda/index');
+                return redirect('/tienda');
             case 2:
                 return redirect('/home');
             default:

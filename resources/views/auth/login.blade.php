@@ -40,76 +40,6 @@
             align-items: center;
         }
 
-        .btn {
-            background-color: #42CE73; /* Color gris azulado */
-            border-color: #42CE73;
-        }
-
-        .btn-cart {
-            margin-right: 20px; /* Ajusta el margen derecho del botón del carrito según sea necesario */
-            color: red;
-        }
-
-        .btn:hover {
-            background-color: #42CE73; /* Color gris azulado más oscuro al pasar el ratón */
-            border-color: #3d312e;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            color: #4a4a4a;
-            transition: transform 0.3s ease;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none; /* Evita la línea divisoria en el último elemento */
-        }
-
-        .dropdown-item:hover {
-            transform: scale(1.05); /* Aumentamos ligeramente el tamaño al pasar el puntero */
-        }
-
-        .divider {
-            border-left: 1px solid white;
-            height: 20px; /* Ajusta la altura según tus necesidades */
-            margin: 0 10px; /* Ajusta el margen según tus necesidades */
-        }
-
-        .btn-white-margin {
-            color: #ffffff; /* Color blanco */
-            margin-left: 10px;
-            margin-right: 30px; /* Ajusta el margen derecho según tus necesidades */
-        }
-
-        .btn-no-bg-text {
-            background-color: transparent; /* Fondo transparente */
-            border: none; /* Sin borde */
-            color: white; /* Color del texto */
-        }
-
         .footer {
             background-color: #343a40; /* Color gris claro */
             color: #ffffff;
@@ -146,14 +76,14 @@
         }
 
         .login-container .btn-primary {
-            background-color: #42CE73;
-            border-color: #42CE73;
+            background-color: #9f3d6b;
+            border-color: #9f3d6b;
             width: 100%;
         }
 
         .login-container .btn-primary:hover {
-            background-color: #3d312e;
-            border-color: #3d312e;
+            background-color: #7c2a50;
+            border-color: #7c2a50;
         }
 
         .login-container a {

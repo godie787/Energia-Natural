@@ -13,7 +13,7 @@ class User extends Authenticatable
 
     protected $primaryKey = 'rut'; // Cambia la clave primaria a 'rut'
     protected $table = 'usuario'; // Cambia el nombre de la tabla a 'usuario'
-
+    
     protected $fillable = [
         'nom_usuario',
         'nombre',
@@ -36,18 +36,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
+    protected $username = 'nom_usuario';
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($user) {
-            $user->password = bcrypt($user->password);
+            // No necesitamos cifrar la contraseña aquí
         });
     }
+    
 
 }
 

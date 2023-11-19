@@ -12,7 +12,13 @@
     <!-- Font Awesome (para iconos) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JS (asegúrate de que sea la misma versión que el CSS) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
     <!-- Estilos personalizados -->
     <style>
@@ -97,15 +103,19 @@
             color: white;
             
         }
+
+        .btn:hover {
+            background-color: #7c2a50;
+            border-color: #7c2a50;
+            color: white;
+        }
+
         .btn-cart {
             margin-right: 20px; /* Ajusta el margen derecho del botón del carrito según sea necesario */
             color: red;
         }
 
-        .btn:hover {
-            background-color: #9f3d6b; /* Color gris azulado más oscuro al pasar el ratón */
-            border-color: #3d312e;
-        }
+        
 
         .btn-secondary,
         .btn-danger {
@@ -266,6 +276,30 @@
             font-weight: bold; /* Peso de la fuente */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para mejorar la legibilidad */
         }
+
+        /*cambiar el puntero al pasar por encima tel nombre o de la imagen*/
+        .product-card:hover .product-image,
+        .product-card:hover .product-title {
+            cursor: pointer; /* Cambia el cursor al pasar el ratón */
+        }
+        #floating-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(159, 61, 107, 0.9); /* Color y opacidad modificados */
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+            transition: opacity 1.5s ease-out;
+            cursor: pointer; /* Agregado para indicar que el mensaje es cliclable */
+            text-decoration: none;
+        }
+
+        #floating-message:hover {
+            background-color: rgba(159, 61, 107, 1); /* Color al pasar el ratón */
+        }
         
 
     </style>
@@ -281,21 +315,19 @@
                     <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
                 </a>
                 <div class="dropdown">
+                    
                     <button class=" btn-no-bg-text dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        Mi Cuenta
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ $user->nombre }}
                     </button>
-
-
                     <div class="dropdown-content" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#"><i class="far fa-user"></i> Mi Perfil</a>
+                        <a class="dropdown-item" href="/perfil"><i class="far fa-user"></i> Mi Perfil</a>
                         <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
                     </div>
-                </div>
+            </div>
             </div>
             <div class="divider"></div>
             <a href="/carrito" class="btn-white-margin"><i id="carrito-icon" class="fas fa-shopping-cart"></i></a>
-
         </div>
     </header>
     <!-- Banner con texto -->
@@ -334,19 +366,20 @@
             </div>
         </div>
     </div>
-
+    <a href="/carrito" id="floating-message" onclick="$(this).fadeOut();">
+        <span id="product-name"></span> agregado al carrito. Haz clic para ir al carrito.
+    </a>
 
     <div class="container">
         <div class="row">
             @foreach ($productos as $producto)
                 <div class="col-md-4">
                     <div class="product-card">
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" class="card-image">
-                        <h5>{{ $producto->nom_producto }}</h5>
-                        <p class="precio">${{ number_format($producto->precio_venta, 0, '.', ',') }}</p>
-
+                        <img class="product-image" data-bs-toggle="modal" data-bs-target="#modalProducto{{ $producto->id_producto }}" src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}">
+                        <h5 class="product-title" data-bs-toggle="modal" data-bs-target="#modalProducto{{ $producto->id_producto }}">{{ $producto->nom_producto }}</h5>
+                        <p class="precio">${{ number_format($producto->precio_venta, 0, '.', '.') }}</p>
                         @if ($producto->estado == 1)
-                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}', '{{ asset('storage/' . $producto->imagen) }}')">
+                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id_producto }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}', '{{ asset('storage/' . $producto->imagen) }}', this)">
                                 <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                             </button>
                         @else
@@ -364,7 +397,28 @@
     <div class="footer">
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
+    <!--MODAL-->
+    @foreach ($productos as $producto)
+        <div class="modal fade" id="modalProducto{{ $producto->id_producto }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ $producto->nom_producto }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" class="card-image">
+                        
+                        <p>{{ $producto->descripcion }}</p>
+                        <p class="precio">Precio: ${{ number_format($producto->precio_venta, 0, '.', '.') }}</p>
+                        <!-- Agrega cualquier otra información que desees mostrar -->
 
+                        <!-- Puedes añadir un botón de "Agregar al carrito" aquí también si lo deseas -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach>
     <!--Ordenar por Categoria -->
     <script>
         function submitForme() {
@@ -378,17 +432,50 @@
         }
     </script>
     <script>
-        function agregarAlCarrito(productoId, nombre, precio, imagen) {
+        function agregarAlCarrito(productoId, nombre, precio, imagen, boton) {
+            // Deshabilitar el botón para evitar múltiples clics
+            boton.disabled = true;
+    
             const producto = { id: productoId, nombre: nombre, precio: precio, imagen: imagen };
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
             carrito.push(producto);
             localStorage.setItem('carrito', JSON.stringify(carrito));
+    
+            // Realiza una solicitud AJAX para cambiar el estado del producto
+            $.ajax({
+                type: 'POST',
+                url: '/actualizar-estado-producto-agregar',
+                data: { productoId: productoId, _token: '{{ csrf_token() }}' },
+                success: function(response) {
+                    console.log('Estado del producto actualizado');
+    
+                    // Mostrar el mensaje flotante
+                    mostrarMensaje(nombre);
+                },
+                error: function(error) {
+                    console.error('Error al actualizar el estado del producto', error);
+                }
+            });
         }
-
+    
+        function mostrarMensaje(productoNombre) {
+            // Actualizar el nombre del producto en el mensaje
+            $('#product-name').text(productoNombre);
+    
+            // Mostrar el mensaje con difuminado gradual
+            $('#floating-message').fadeIn().delay(3000).fadeOut();
+        }
     </script>
-    <!-- Bootstrap JS (opcional, dependiendo de tus necesidades) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Font Awesome JS (para iconos) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        function mostrarMensaje(mensaje) {
+            var mensajeFlotante = document.getElementById('floating-message');
+            mensajeFlotante.innerText = mensaje;
+            mensajeFlotante.style.display = 'block';
+
+            setTimeout(function() {
+                mensajeFlotante.style.display = 'none';
+            }, 3000); // El mensaje desaparecerá después de 3000 milisegundos (3 segundos)
+        }
+    </script>
 </body>
 </html>

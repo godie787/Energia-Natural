@@ -159,27 +159,50 @@ class ProductoController extends Controller
     public function filtrarProductos(Request $request)
     {
         $categoriaId = $request->input('categoria');
-        
+        $user = auth()->user();
         // Obtén los productos según la categoría seleccionada
         $productos = ($categoriaId) ? Producto::where('id_categoria', $categoriaId)->get() : Producto::all();
         $categorias = Categoria::all();
         $categoriaSeleccionada = $request->input('categoria');
         // Pasa los productos y otras variables necesarias a la vista
-        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada'));
+        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada', 'user'));
     }
 
     //ordenar por precio
     public function ordenarProductos(Request $request)
     {
         $orden = $request->input('orden');
-
+        $user = auth()->user();
         // Obtén los productos según la opción de orden seleccionada
         $productos = ($orden == 'precioAsc') ? Producto::orderBy('precio_venta', 'asc')->get() : Producto::orderBy('precio_venta', 'desc')->get();
         $categorias = Categoria::all();
         $categoriaSeleccionada = $request->input('categoria');
         // Pasa los productos y otras variables necesarias a la vista
-        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada'));
+        return view('tienda.index', compact('productos', 'categorias','categoriaSeleccionada', 'user'));
     }
 
-
+    public function actualizarEstadoAgregar(Request $request) {
+        $productoId = $request->input('productoId');
+    
+        $producto = Producto::find($productoId);
+        if ($producto) {
+            $producto->estado = 0; // Cambiar a 0 al agregar al carrito
+            $producto->save();
+        }
+    
+        return response()->json(['message' => 'Estado del producto actualizado correctamente']);
+    }
+    
+    public function actualizarEstadoEliminar(Request $request) {
+        $productoId = $request->input('productoId');
+    
+        $producto = Producto::find($productoId);
+        if ($producto) {
+            $producto->estado = 1; // Cambiar a 1 al eliminar del carrito
+            $producto->save();
+        }
+    
+        return response()->json(['message' => 'Estado del producto actualizado correctamente']);
+    }
+    
 }
