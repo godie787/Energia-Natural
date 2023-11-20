@@ -15,13 +15,14 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
     <!--Fuente-->
 
     
     
-
-    <!-- Bootstrap JS (asegúrate de que sea la misma versión que el CSS) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+ 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
@@ -304,7 +305,7 @@
 
     <div class="confirmacion-pago">
         <p>Si ya realizó la transferencia, presione el siguiente botón:</p>
-        <button class="btn" id="pagoRealizadoBtn" data-toggle="modal" data-target="#agradecimientoModal">Pago Realizado</button>
+        <button class="btn" id="pagoRealizadoBtn" onclick="confirmarPago()">Pago Realizado</button>
     </div>
 </div>
 <div class="footer">
@@ -325,12 +326,34 @@
                 <p>Ahora puedes relajarte mientras procesamos tu compra. Recibirás un email con el estado de tu compra.</p>
             </div>
             <div class="modal-footer">
-                <a href="/tienda" class="btn btn-secondary">Ir a la página principal</a>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                <a href="/tienda" class="btn ">Ir a la página principal</a>
+                <button type="button" class="btn " data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function confirmarPago() {
+        // Realiza una solicitud AJAX para notificar al servidor que el pago se ha realizado
+        $.ajax({
+            type: 'POST',
+            url: '/confirmar-pago',
+            data: { _token: '{{ csrf_token() }}' },
+            success: function(response) {
+                console.log('Pago confirmado con éxito');
+
+                // Limpiar el carrito localmente
+                localStorage.removeItem('carrito');
+
+                // Mostrar el modal de agradecimiento
+                $('#agradecimientoModal').modal('show');
+            },
+            error: function(error) {
+                console.error('Error al confirmar el pago', error);
+            }
+        });
+    }
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const detalleCompra = document.getElementById('detalle-compra');

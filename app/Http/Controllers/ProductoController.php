@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
-
+use Illuminate\Support\Facades\Session;
 class ProductoController extends Controller
 {
 
@@ -229,6 +229,21 @@ class ProductoController extends Controller
 
         // Devuelve la dirección como una respuesta JSON
         return response()->json(['direccion' => $direccion]);
+    }
+    //confirma la transferencia
+    public function confirmarPago(Request $request)
+    {
+        try {
+            // Lógica para confirmar el pago en el servidor
+
+            // Limpiar el carrito
+            Session::forget('carrito');
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejar el error
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
     
     

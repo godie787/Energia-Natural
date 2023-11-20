@@ -21,7 +21,7 @@ use App\Http\Controllers\UsuarioController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/unauthorized', function () {return view('errors.unauthorized');})->name('unauthorized');
@@ -58,7 +58,8 @@ Route::middleware(['auth', 'checkRole:1'])->group(function () {
     Route::get('/pago', [ProductoController::class, 'procesarPago']);
     Route::get('/obtener-direccion-usuario', [ProductoController::class, 'obtenerDireccionUsuario']);
 
-
+    //Confirma la transferencia
+    Route::post('/confirmar-pago', [ProductoController::class, 'confirmarPago']);
 });
 
 Route::middleware(['auth', 'checkRole:2'])->group(function (){
