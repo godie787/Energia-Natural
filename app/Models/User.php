@@ -24,6 +24,7 @@ class User extends Authenticatable
         'rol', // Agrega el nuevo campo 'rol'
         'fono', // Agrega el nuevo campo 'fono'
         'direccion', // Agrega el nuevo campo 'direccion'
+        'direccion_despacho',
         'email',
     ];
 

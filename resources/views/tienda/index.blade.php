@@ -390,9 +390,6 @@
             @endforeach
         </div>
     </div>
-
-    
-
     <div id="carrito"></div>
     <div class="footer">
         © 2023 Cuarzos Energía Natural - Tienda en línea

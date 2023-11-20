@@ -14,7 +14,7 @@
             padding: 0;
             color: #333;
         }
-
+        
         header {
             background-color: transparent;
             color: black;
@@ -168,7 +168,7 @@
                 <!-- Aquí se mostraría el detalle del carrito -->
             </div>
             <div class="acciones">
-                <button class="proceder" onclick="procederAlPago()">Proceder al Pago</button>
+                <button class="proceder" onclick="window.location.href='/pago'">Proceder al Pago</button>
                 <button class="volver" onclick="volverATienda()">Volver a la Tienda</button>
             </div>
         </div>
@@ -271,11 +271,6 @@
                 // Actualizar el detalle del carrito
                 cargarDetalleCarrito(carrito);
             }
-        }
-    
-        function procederAlPago() {
-            alert('Redirigiendo a la página de pago...');
-            // Aquí puedes agregar lógica adicional para la redirección
         }
     
         function volverATienda() {

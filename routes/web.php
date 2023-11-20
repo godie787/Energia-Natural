@@ -54,6 +54,10 @@ Route::middleware(['auth', 'checkRole:1'])->group(function () {
     Route::get('/perfil', [UsuarioController::class, 'mostrarPerfil']);
     Route::put('/perfil', [UsuarioController::class, 'actualizarPerfil']);
 
+    //ir a la pagina de pago
+    Route::get('/pago', [ProductoController::class, 'procesarPago']);
+    Route::get('/obtener-direccion-usuario', [ProductoController::class, 'obtenerDireccionUsuario']);
+
 
 });
 

@@ -204,5 +204,32 @@ class ProductoController extends Controller
     
         return response()->json(['message' => 'Estado del producto actualizado correctamente']);
     }
+
+    public function procesarPago(Request $request)
+    {
+
+        
+        $carrito = json_decode($request->session()->get('carrito'), true) ?? [];
+        $user = auth()->user();
+
+        $direccion = $user->direccion;
+        $categorias = Categoria::all();
+        $categoriaId = $request->input('categoria');
+
+        // Obtén los productos según la categoría seleccionada
+        $productos = ($categoriaId) ? Producto::where('id_categoria', $categoriaId)->get() : Producto::all();
+
+        return view('tienda.pago', compact('carrito', 'categorias', 'categoriaId', 'user', 'productos', 'direccion'));
+    }
+
+    public function obtenerDireccionUsuario(Request $request)
+    {
+        // Obtén la dirección del usuario desde el modelo User
+        $direccion = auth()->user()->direccion;
+
+        // Devuelve la dirección como una respuesta JSON
+        return response()->json(['direccion' => $direccion]);
+    }
+    
     
 }

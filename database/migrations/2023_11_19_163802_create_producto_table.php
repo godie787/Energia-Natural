@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_categoria');
             $table->string('nom_producto',50);
             $table->string('descripcion',80);
-            $table->decimal('precio_venta', 6, 1); //cambié este campo manualmente por: double('precio_venta', 8, 2);
+            $table->double('precio_venta', 8, 2); //cambié este campo manualmente por: double('precio_venta', 8, 2);
             $table->string('imagen')->nullable();
             $table->boolean('estado')->default(true);
 
