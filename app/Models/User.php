@@ -11,9 +11,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $primaryKey = 'rut'; // Cambia la clave primaria a 'rut'
+     
     protected $table = 'usuario'; // Cambia el nombre de la tabla a 'usuario'
-    
+    protected $primaryKey = 'rut';
+
     protected $fillable = [
         'nom_usuario',
         'nombre',
@@ -45,6 +46,10 @@ class User extends Authenticatable
         static::creating(function ($user) {
             // No necesitamos cifrar la contraseña aquí
         });
+    }
+    public function admin()
+    {
+        return $this->hasOne(User::class, 'rut');
     }
     
 

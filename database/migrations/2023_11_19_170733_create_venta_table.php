@@ -14,6 +14,7 @@ class CreateVentaTable extends Migration
             $table->bigInteger('id_cliente_rut')->unsigned();
             $table->date('fecha');
             $table->decimal('total', 8, 2);
+            $table->string('direccion_envio', 50);
             $table->char('estado', 1);
             $table->unsignedBigInteger('num_envio');
             $table->unsignedBigInteger('id_courrier');

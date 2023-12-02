@@ -239,7 +239,7 @@
 
 <div class="contenedor-pago">
     <h1>Resumen de Compra</h1>
-
+    <input type="hidden" id="rutAdminCreadorInput" value="{{ auth()->user()->rut }}">
     <div class="detalle-compra" id="detalle-compra">
         <!-- Aquí se mostrarán los productos y su precio -->
     </div>
@@ -334,26 +334,101 @@
 </div>
 <script>
     function confirmarPago() {
-        // Realiza una solicitud AJAX para notificar al servidor que el pago se ha realizado
-        $.ajax({
-            type: 'POST',
-            url: '/confirmar-pago',
-            data: { _token: '{{ csrf_token() }}' },
-            success: function(response) {
-                console.log('Pago confirmado con éxito');
+    // Obtener datos necesarios (rut del cliente, fecha, total, dirección, etc.)
+    var rutCliente = obtenerRutCliente(); // Implementa esta función según tu lógica
+    var fecha = obtenerFecha(); // Implementa esta función según tu lógica
+    var total = obtenerTotal(); // Implementa esta función según tu lógica
+    var direccion = obtenerDireccion(); // Implementa esta función según tu lógica
 
-                // Limpiar el carrito localmente
-                localStorage.removeItem('carrito');
+    // Verifiquemos los valores antes de la solicitud AJAX
+    console.log('Valores antes de la solicitud AJAX:', {
+        rutCliente: rutCliente,
+        fecha: fecha,
+        total: total,
+        direccion: direccion,
+    });
 
-                // Mostrar el modal de agradecimiento
-                $('#agradecimientoModal').modal('show');
-            },
-            error: function(error) {
-                console.error('Error al confirmar el pago', error);
-            }
-        });
+    // Realizar solicitud AJAX para notificar al servidor que el pago se ha realizado y enviar datos adicionales
+    $.ajax({
+        type: 'POST',
+        url: '/confirmar-pago',
+        data: {
+            _token: '{{ csrf_token() }}',
+            rutCliente: rutCliente, // Agrega el rut del cliente aquí
+            fecha: fecha,
+            total: total,
+            direccion: direccion,
+        },
+        success: function(response) {
+            console.log('Pago confirmado con éxito');
+
+            // Limpiar el carrito localmente
+            localStorage.removeItem('carrito');
+
+            // Mostrar el modal de agradecimiento
+            $('#agradecimientoModal').modal('show');
+        },
+        error: function(error) {
+            console.error('Error al confirmar el pago', error);
+
+            // Mostrar un mensaje de error al usuario
+            alert('Hubo un error al procesar el pago. Por favor, inténtalo nuevamente.');
+        }
+    });
+}
+
+
+
+    // Nueva función para obtener rut_admin_creador
+    function obtenerRutAdminCreador() {
+        // Implementa lógica para obtener rut_admin_creador, por ejemplo, desde algún campo oculto en tu formulario
+        return $('#rutAdminCreadorInput').val(); // Ajusta según tu implementación
     }
+
+
+
+
+
+    // Funciones para obtener datos del formulario
+    function obtenerRutCliente() {
+        // Implementa la lógica para obtener el rut del cliente desde el formulario
+        return $('#rutCliente').val(); // Ajusta el selector según tu estructura
+    }
+
+    function obtenerFecha() {
+        // Implementa la lógica para obtener la fecha desde el formulario
+        return $('#fecha').val(); // Ajusta el selector según tu estructura
+    }
+
+    function obtenerTotal() {
+        // Obtener productos del carrito desde el almacenamiento local
+        var carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        // Calcular el total sumando los precios de los productos en el carrito
+        var total = carrito.reduce(function (accumulator, producto) {
+            return accumulator + parseFloat(producto.precio);
+        }, 0);
+
+        console.log('Valor de total en obtenerTotal():', total);
+
+        return total;
+    }
+
+    function obtenerDireccion() {
+        // Implementa la lógica para obtener la dirección desde el formulario
+        if ($('#retiroEnTienda').is(':checked')) {
+            return 'Retiro en Tienda';
+        } else if ($('#usarDireccionExistente').is(':checked')) {
+            return $('#direccionExistente').text(); // Ajusta el selector según tu estructura
+        } else if ($('#ingresarNuevaDireccion').is(':checked')) {
+            return $('#calle').val(); // Ajusta el selector según tu estructura
+        }
+
+        return '';
+    }
+
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const detalleCompra = document.getElementById('detalle-compra');

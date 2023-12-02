@@ -238,6 +238,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header">Mi Perfil</div>
+                    <div style="margin-left: 2%">* obligatorios</div>
 
                     <div class="card-body">
                         <!-- Formulario para mostrar y editar datos del usuario -->
@@ -246,11 +247,11 @@
                             @method('PUT')
                             @include('layouts.partials.messages')
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre de usuario</label>
+                                <label for="nombre" class="form-label">Nombre de usuario*</label>
                                 <input type="text" class="form-control" id="nom_usuario" name="nom_usuario" value="{{ $user->nom_usuario }}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre*</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $user->nombre }}" required>
                             </div>
 
@@ -265,12 +266,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <label for="correo" class="form-label">Correo Electrónico*</label>
                                 <input type="email" class="form-control" id="correo" name="correo" value="{{ $user->correo }}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
+                                <label for="password" class="form-label">Contraseña (Minimo de 8 caracteres)</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Deja en blanco para mantener la actual">
                             </div>
                             <button type="button" class="btn" id="btnActualizarPerfil">Actualizar Perfil</button>

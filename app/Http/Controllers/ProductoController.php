@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
+use App\Models\Venta;
+use Exception;
 class ProductoController extends Controller
 {
 
@@ -43,12 +50,16 @@ class ProductoController extends Controller
             $producto->imagen = $rutaImagen;
         }
 
+        // Asignar el rut_admin_creador al producto (necesario para la relación)
+        $producto->rut_admin_creador = auth()->user()->rut;
+
         // Guardar los cambios
         $producto->save();
 
         // Redirigir a la lista de productos con un mensaje de éxito
         return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito.');
     }
+
     public function destroy($id)
     {
         $producto = Producto::find($id);
@@ -96,39 +107,46 @@ class ProductoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom_producto' => 'required|string|max:50',
-            'id_categoria' => 'required|exists:categoria,id_categoria',
-            'descripcion' => 'string|max:200',
-            'precio_venta' => 'required|numeric|min:0',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'estado' => 'required|boolean',
-        ]);
+{
+    $request->validate([
+        'nom_producto' => 'required|string|max:50',
+        'id_categoria' => 'required|exists:categoria,id_categoria',
+        'descripcion' => 'string|max:200',
+        'precio_venta' => 'required|numeric|min:0',
+        'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        'estado' => 'required|boolean',
+    ]);
 
-        // Crear un nuevo producto con los datos del formulario
-        $producto = new Producto([
-            'nom_producto' => $request->nom_producto,
-            'id_categoria' => $request->id_categoria,
-            'descripcion' => $request->descripcion,
-            'precio_venta' => $request->precio_venta,
-            'estado' => $request->estado,
-        ]);
+    // Obtén el rut del administrador actualmente autenticado usando el helper auth()
+    $rutAdminCreador = auth()->user()->rut;
 
-        // Manejar la carga de la imagen
-        if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $rutaImagen = $imagen->store('productos', 'public');
-            $producto->imagen = $rutaImagen;
-        }
+    // Crear un nuevo producto con los datos del formulario
+    $producto = new Producto([
+        'nom_producto' => $request->nom_producto,
+        'id_categoria' => $request->id_categoria,
+        'descripcion' => $request->descripcion,
+        'precio_venta' => $request->precio_venta,
+        'rut_admin_creador' => $rutAdminCreador,
+        'estado' => $request->estado,
+    ]);
 
-        // Guardar el producto en la base de datos
-        $producto->save();
-        session()->flash('success', 'Producto creado con éxito');
-        // Redireccionar u otros pasos después de guardar
-        return back();
-
+    // Manejar la carga de la imagen
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen');
+        $rutaImagen = $imagen->store('productos', 'public');
+        $producto->imagen = $rutaImagen;
     }
+
+    // Guardar el producto en la base de datos
+    $producto->save();
+    
+    session()->flash('success', 'Producto creado con éxito');
+    
+    // Redireccionar u otros pasos después de guardar
+    return back();
+}
+
+
     //mostrar productos en la tienda
     public function mostrarTienda()
     {
@@ -230,21 +248,54 @@ class ProductoController extends Controller
         // Devuelve la dirección como una respuesta JSON
         return response()->json(['direccion' => $direccion]);
     }
+
     //confirma la transferencia
+    
     public function confirmarPago(Request $request)
     {
         try {
-            // Lógica para confirmar el pago en el servidor
+            // Obtener datos de la solicitud
+            $rutCliente = auth()->user()->rut; // Obtén el rut del cliente autenticado
+            $fecha = Carbon::now(); // Obtén la fecha actual con Carbon
+            $total = $request->input('total');
+            $direccion = $request->input('direccion');
+
+            // Log para verificar los valores recibidos
+            \Log::info('Valores recibidos en confirmarPago:', [
+                'rutCliente' => $rutCliente,
+                'fecha' => $fecha,
+                'total' => $total,
+                'direccion' => $direccion,
+            ]);
+
+            // Lógica para confirmar el pago en el servidor y obtener el id del administrador
+            // No necesitas obtener el ID del administrador en este punto
+
+            // Insertar en la base de datos
+            Venta::create([
+                'id_cliente_rut' => $rutCliente,
+                'fecha' => $fecha,
+                'total' => $total,
+                'direccion_envio' => $direccion,
+                'estado' => 'pendiente',
+                // Otros campos...
+            ]);
 
             // Limpiar el carrito
             Session::forget('carrito');
-            
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             // Manejar el error
+            \Log::error('Error al confirmar el pago: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
+
+    
+    
     
     
 }

@@ -18,10 +18,14 @@ class Producto extends Model
         'id_categoria',
         'nom_producto',
         'descripcion',
+        'rut_admin_creador',
         'precio_venta',
         'imagen',
         'estado',
     ];
 
-    // Puedes agregar relaciones o métodos adicionales según tus necesidades
+    public function adminCreador()
+    {
+        return $this->belongsTo(User::class, 'rut_admin_creador', 'rut');
+    }
 }

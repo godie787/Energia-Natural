@@ -60,6 +60,8 @@ Route::middleware(['auth', 'checkRole:1'])->group(function () {
 
     //Confirma la transferencia
     Route::post('/confirmar-pago', [ProductoController::class, 'confirmarPago']);
+
+
 });
 
 Route::middleware(['auth', 'checkRole:2'])->group(function (){
