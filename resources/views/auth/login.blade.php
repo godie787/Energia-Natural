@@ -134,12 +134,12 @@
           @endif
           <div class="form-outline mb-4">
               <label class="form-label" for="nom_usuario">Nombre de Usuario o Email</label>
-              <input type="text" id="nom_usuario" maxlength="5" name="nom_usuario" class="form-control form-control-lg" required />
+              <input type="text" id="nom_usuario" maxlength="100" name="nom_usuario" class="form-control form-control-lg" required />
           </div>
 
           <div class="form-outline mb-4">
               <label class="form-label" for="password">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control form-control-lg" required />
+              <input type="password" id="password" maxlength="255" name="password" class="form-control form-control-lg" required />
           </div>
 
           <div class="pt-1 mb-4">
