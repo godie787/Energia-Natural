@@ -168,6 +168,12 @@
         .login-container a:hover {
             text-decoration: underline;
         }
+        
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -193,48 +199,49 @@
             <h3 class="fw-normal mb-3 pb-2" style="letter-spacing: 1px;">Crear cuenta</h3>
 
             <div class="form-outline mb-2">
-                <label class="form-label" for="rut">Rut (sin puntos ni guión)</label>
-                <input value="{{ old('rut') }}"type="text" maxlength="12" id="rut" name ="rut" class="form-control form-control-lg" />
+                <label class="form-label" for="rut">* Rut (sin puntos ni guión)</label>
+                <input value="{{ old('rut') }}"type="text" required maxlength="12" id="rut" name ="rut" class="form-control form-control-lg" />
             </div>
 
             <div class="form-outline mb-2">
-                <label class="form-label" for="nom_usuario">Nombre de Usuario</label>
-                <input value="{{ old('nom_usuario') }}" type="text" id="nom_usuario"name ="nom_usuario" class="form-control form-control-lg" />
+                <label class="form-label" for="nom_usuario">* Nombre de Usuario</label>
+                <input value="{{ old('nom_usuario') }}" required maxlength="30" type="text" id="nom_usuario"name ="nom_usuario" class="form-control form-control-lg" />
             </div>
 
             <div class="form-outline mb-2">
-                <label class="form-label" for="nombre">Nombre</label>
-                <input value="{{ old('nombre') }}"type="text" id="nombre" name ="nombre"class="form-control form-control-lg" />
+                <label class="form-label" for="nombre">* Nombre</label>
+                <input value="{{ old('nombre') }}"type="text" required maxlength="100" id="nombre" name ="nombre"class="form-control form-control-lg" />
             </div>
 
             <div class="form-outline mb-2">
-                <label class="form-label" for="apellido">Apellido</label>
-                <input value="{{ old('apellido') }}"type="text" id="apellido"name="apellido" class="form-control form-control-lg" />
+                <label class="form-label" for="apellido">* Apellido</label>
+                <input value="{{ old('apellido') }}"type="text" required maxlength="80" id="apellido"name="apellido" class="form-control form-control-lg" />
             </div>
 
             <div class="form-outline mb-2">
-                <label class="form-label" for="form2Example27">Contraseña</label>
-                <input value="{{ old('password') }}"type="password" id="password" name="password" class="form-control form-control-lg" />
+                <label class="form-label" for="form2Example27">* Contraseña</label>
+                <input value="{{ old('password') }}"type="password" required maxlength="255" id="password" name="password" class="form-control form-control-lg" />
                 
             </div>
             <div class="form-outline mb-2">
-              <label class="form-label" for="form2Example27">Confirmar contraseña</label>
-              <input type="password" id="password_confirmation" name="password_confirmation" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example27">* Confirmar contraseña</label>
+              <input type="password" id="password_confirmation" required maxlength="255" name="password_confirmation" class="form-control form-control-lg" />
             <div class="form-outline mb-2">
                 <label class="form-label" for="fono">Teléfono (opcional)</label>
-                <input value="{{ old('fono') }}" type="text" id="fono" name="fono" class="form-control form-control-lg" />
+                <input value="{{ old('fono') }}" maxlength="12" type="text" id="fono" name="fono" class="form-control form-control-lg" />
             </div>
         
             <div class="form-outline mb-2">
                 <label class="form-label" for="direccion">Dirección (opcional)</label>
-                <input value="{{ old('direccion') }}" type="text" id="direccion" name="direccion" class="form-control form-control-lg" />
+                <input value="{{ old('direccion') }}" maxlength="50" type="text" id="direccion" name="direccion" class="form-control form-control-lg" />
             </div>
           </div>
             <div class="form-outline mb-2">
-              <label class="form-label" for="correo">Email</label>
-              <input value="{{ old('correo') }}" type="email" id="correo" name="correo"class="form-control form-control-lg" />
+              <label class="form-label" for="correo">* Email</label>
+              <input value="{{ old('correo') }}" required maxlength="100" type="email" id="correo" name="correo"class="form-control form-control-lg" />
               
             </div>
+            <p class="reglas">Los campos marcados en (*) son obligatorios</p>
             <div class="pt-2">
               <button style="background-color: #42CE73; color: #eceff1; font-size:18px;" class="btn btn-lg btn-block" type="submit">Registrarse</button>
               <a href="/login" style="background-color: #42CE73; color: #eceff1; font-size:18px;" class="btn btn-lg btn-block" type="button">Login</a>
