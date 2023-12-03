@@ -134,7 +134,7 @@
           @endif
           <div class="form-outline mb-4">
               <label class="form-label" for="nom_usuario">Nombre de Usuario o Email</label>
-              <input type="text" id="nom_usuario" name="nom_usuario" class="form-control form-control-lg" required />
+              <input type="text" id="nom_usuario" maxlength="5" name="nom_usuario" class="form-control form-control-lg" required />
           </div>
 
           <div class="form-outline mb-4">
