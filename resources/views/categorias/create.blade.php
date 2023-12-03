@@ -91,6 +91,12 @@
 
         }
 
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
+        }
+
         
     </style>
 
@@ -162,14 +168,15 @@
                         <form action="{{ route('categorias.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="nom_categoria" class="form-label">Nombre de la Categoría:</label>
-                                <input type="text" name="nom_categoria" id="nom_categoria" class="form-control" required>
+                                <label for="nom_categoria" class="form-label">* Nombre de la Categoría:</label>
+                                <input type="text" name="nom_categoria" placeholder="max 50 caracteres" required maxlength="50" id="nom_categoria" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="descripcion" class="form-label">Descripción:</label>
-                                <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
+                                <label for="descripcion" class="form-label">* Descripción:</label>
+                                <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" required maxlength="30" class="form-control"></textarea>
                             </div>
                             <br>
+                            <p class="reglas">Los campos marcados en (*) son obligatorios</p>
                             <div>
                                 <button type="submit" class="btn" style="background-color: #3498db; color: white">Crear Categoría</button>
                                 <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#existingCategoriesModal">
