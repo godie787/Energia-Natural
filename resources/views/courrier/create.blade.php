@@ -84,9 +84,9 @@
         }
         .table-container {
             width: 40%; /* Cambia el porcentaje según tus necesidades */
-            margin-left: 10%; /* Centra la tabla en el contenedor */
+            margin-left: 2%; /* Centra la tabla en el contenedor */
 
-            margin-top: 60px;
+            margin-top: 40px;
 
         }
 
@@ -108,7 +108,7 @@
                 <div class="option-title">Menú de Opciones</div>
                 <hr style="color: #00CED1; margin-right: 10%;">
                 <li><a href="{{route('home')}}"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="{{route('estadisticas.mostrar')}}"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
                 <li><a href="{{route('usuarios.index')}}"><i class="fas fa-users"></i> Usuarios</a></li>
                 <li><a href="{{ route('categorias.create') }}"><i class="fas fa-folder-plus"></i> Categorías</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-box"></i> Productos</a></li>
@@ -121,6 +121,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
+                            <a href="{{ route('perfil.admin') }}" style="color: #333; text-align: center;">
+                                Mi Perfil
+                            </a>
                             <a href="/logout" style="color: #333; text-align: center; padding: 10px;">
                                 Cerrar sesión
                             </a>
@@ -147,7 +150,7 @@
 
     <section class="content">
         <div class="table-container" >
-            <h2 class="mb-4">Nuevo Courrier</h2>
+            <h2 class="mb-4">Nuevo Courier</h2>
                     @if(session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
@@ -179,8 +182,8 @@
                         <br>
                     
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2">Ver Courriers</a>
-                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2">Volver a Couriers</a>
+                            <button type="submit" class="btn" style="background-color: #3498db; color: white">Agregar</button>
                         </div>
                         
                     </form>                    

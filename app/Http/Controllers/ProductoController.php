@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
 use App\Models\Venta;
+use App\Models\Courrier;
+
 use Exception;
 class ProductoController extends Controller
 {
@@ -75,25 +76,24 @@ class ProductoController extends Controller
     }
     public function index(Request $request)
     {
+        
+        
         $user = auth()->user();
         $categorias = Categoria::all();
 
-        $productos = Producto::when($request->has('search_nombre'), function ($query) use ($request) {
-                $query->where('nom_producto', 'like', '%' . $request->input('search_nombre') . '%')
-                      ->orWhere('id_producto', 'like', '%' . $request->input('search_nombre') . '%')
-                      ->orWhere('id_categoria', 'like', '%' . $request->input('search_nombre') . '%')
-                      ->orWhere('descripcion', 'like', '%' . $request->input('search_nombre') . '%')
-                      ->orWhere('precio_venta', 'like', '%' . $request->input('search_nombre') . '%')
-                      ->orWhere('estado', 'like', '%' . $request->input('search_nombre') . '%');
-                      
+        $productos = Producto::with('categoria')
+            ->when($request->has('search_nombre'), function ($query) use ($request) {
+                $query->where('nom_producto', 'like', '%' . $request->input('search_nombre') . '%');
             })
             ->when($request->has('search_categoria') && $request->input('search_categoria') !== 'all', function ($query) use ($request) {
                 $query->where('id_categoria', $request->input('search_categoria'));
             })
             ->get();
-
+        
+    
+        
         return view('productos.index', compact('productos', 'user', 'categorias'));
-
+        
         $productos = $productosQuery->get();
 
         return view('productos.index', compact('productos', 'user', 'categorias'));
@@ -107,44 +107,44 @@ class ProductoController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nom_producto' => 'required|string|max:50',
-        'id_categoria' => 'required|exists:categoria,id_categoria',
-        'descripcion' => 'string|max:200',
-        'precio_venta' => 'required|numeric|min:0',
-        'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        'estado' => 'required|boolean',
-    ]);
+    {
+        $request->validate([
+            'nom_producto' => 'required|string|max:50',
+            'id_categoria' => 'required|exists:categoria,id_categoria',
+            'descripcion' => 'string|max:200',
+            'precio_venta' => 'required|numeric|min:0',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'estado' => 'required|boolean',
+        ]);
 
-    // Obtén el rut del administrador actualmente autenticado usando el helper auth()
-    $rutAdminCreador = auth()->user()->rut;
+        // Obtén el rut del administrador actualmente autenticado usando el helper auth()
+        $rutAdminCreador = auth()->user()->rut;
 
-    // Crear un nuevo producto con los datos del formulario
-    $producto = new Producto([
-        'nom_producto' => $request->nom_producto,
-        'id_categoria' => $request->id_categoria,
-        'descripcion' => $request->descripcion,
-        'precio_venta' => $request->precio_venta,
-        'rut_admin_creador' => $rutAdminCreador,
-        'estado' => $request->estado,
-    ]);
+        // Crear un nuevo producto con los datos del formulario
+        $producto = new Producto([
+            'nom_producto' => $request->nom_producto,
+            'id_categoria' => $request->id_categoria,
+            'descripcion' => $request->descripcion,
+            'precio_venta' => $request->precio_venta,
+            'rut_admin_creador' => $rutAdminCreador,
+            'estado' => $request->estado,
+        ]);
 
-    // Manejar la carga de la imagen
-    if ($request->hasFile('imagen')) {
-        $imagen = $request->file('imagen');
-        $rutaImagen = $imagen->store('productos', 'public');
-        $producto->imagen = $rutaImagen;
+        // Manejar la carga de la imagen
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $rutaImagen = $imagen->store('productos', 'public');
+            $producto->imagen = $rutaImagen;
+        }
+
+        // Guardar el producto en la base de datos
+        $producto->save();
+        
+        session()->flash('success', 'Producto creado con éxito');
+        
+        // Redireccionar u otros pasos después de guardar
+        return back();
     }
-
-    // Guardar el producto en la base de datos
-    $producto->save();
-    
-    session()->flash('success', 'Producto creado con éxito');
-    
-    // Redireccionar u otros pasos después de guardar
-    return back();
-}
 
 
     //mostrar productos en la tienda
@@ -291,7 +291,17 @@ class ProductoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
+    public function verCompras() {
+        $user = auth()->user();
+    
+        // Obtener compras del usuario con información del courrier
+        $compras = Venta::where('id_cliente_rut', $user->rut)
+                        ->join('courrier', 'venta.id_courrier', '=', 'courrier.id_courrier')
+                        ->select('venta.id_venta', 'venta.fecha', 'venta.total', 'venta.num_envio', 'courrier.nombre as nombre_courrier')
+                        ->get();
+    
+        return view('tienda.compras', compact('user', 'compras'));
+    }
 
 
     

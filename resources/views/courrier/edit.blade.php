@@ -83,7 +83,7 @@
             margin-bottom: 10px;
         }
         .table-container {
-            width: 50%; /* Cambia el porcentaje según tus necesidades */
+            width: 40%; /* Cambia el porcentaje según tus necesidades */
             margin-left: 2%; /* Centra la tabla en el contenedor */
 
             margin-top: 40px;
@@ -150,43 +150,50 @@
 
     <section class="content">
         <div class="table-container">
-            <h2 class="mb-4">Empresas de Envíos <a href="{{ route('courrier.create') }}" class="btn " style=" background-color: #1b3039;
-                color: white; margin-left: 10px;">Agregar nuevo courier</a></h2>
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID Courrier</th>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($courriers as $courrier)
-                            <tr>
-                                <td>{{ $courrier->id_courrier }}</td>
-                                <td>{{ $courrier->nombre }}</td>
-                                <td>{{ $courrier->direccion }}</td>
-                                <td>{{ $courrier->fono }}</td>
-                                <td>
-                                    <a href="{{ route('courrier.edit', ['id_courrier' => $courrier->id_courrier]) }}" class="btn" style="flex: 1; background-color: #3498db; color: white; padding: 8px 12px; text-align: center; text-decoration: none;">Editar</a>
-                                    <form action="{{ route('courrier.destroy', ['id_courrier' => $courrier->id_courrier]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="padding: 8px 12px;" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                                    </form>
-                                    
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <h2>Editar Courier</h2>
+            
+            <!-- Mostrar mensajes de éxito o error si los hay -->
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <!-- Formulario de edición -->
+            <form action="{{ route('courrier.update', ['id_courrier' => $courrier->id_courrier]) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <!-- Campos del formulario -->
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $courrier->nombre }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" name="direccion" id="direccion" class="form-control" value="{{ $courrier->direccion }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fono">Teléfono:</label>
+                    <input type="text" name="fono" id="fono" class="form-control" value="{{ $courrier->fono }}" required>
+                </div>
+                <br>
+                <!-- Botón de enviar -->
+                <div class="d-flex">
+                    <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2 ">Volver a Couriers</a>
+                    <button type="submit" class="btn" style="background-color: #3498db; color: white">Guardar cambios</button>
+                </div>
+                
+                
+            </form>
         </div>
     </section>
     

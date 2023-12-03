@@ -83,13 +83,46 @@
             margin-bottom: 10px;
         }
         .table-container {
-            width: 50%; /* Cambia el porcentaje según tus necesidades */
-            margin-left: 2%; /* Centra la tabla en el contenedor */
-
-            margin-top: 40px;
+            width: 40%; /* Cambia el porcentaje según tus necesidades */
+            margin-left: 15%; /* Centra la tabla en el contenedor */
+            margin-top: 60px;
 
         }
+        h2 {
+            color: #333;
+        }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
         
 
         
@@ -124,9 +157,10 @@
                             <a href="{{ route('perfil.admin') }}" style="color: #333; text-align: center;">
                                 Mi Perfil
                             </a>
-                            <a href="/logout" style="color: #333; text-align: center; padding: 10px;">
+                            <a href="" style="color: #333; text-align: center;">
                                 Cerrar sesión
                             </a>
+                            
                         </li>
                     </ul>
                 </li>
@@ -150,46 +184,44 @@
 
     <section class="content">
         <div class="table-container">
-            <h2 class="mb-4">Empresas de Envíos <a href="{{ route('courrier.create') }}" class="btn " style=" background-color: #1b3039;
-                color: white; margin-left: 10px;">Agregar nuevo courier</a></h2>
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID Courrier</th>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($courriers as $courrier)
-                            <tr>
-                                <td>{{ $courrier->id_courrier }}</td>
-                                <td>{{ $courrier->nombre }}</td>
-                                <td>{{ $courrier->direccion }}</td>
-                                <td>{{ $courrier->fono }}</td>
-                                <td>
-                                    <a href="{{ route('courrier.edit', ['id_courrier' => $courrier->id_courrier]) }}" class="btn" style="flex: 1; background-color: #3498db; color: white; padding: 8px 12px; text-align: center; text-decoration: none;">Editar</a>
-                                    <form action="{{ route('courrier.destroy', ['id_courrier' => $courrier->id_courrier]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="padding: 8px 12px;" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                                    </form>
-                                    
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <h2>Perfil del Administrador</h2>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+        
+            <form method="POST" action="{{ route('guardar_perfil') }}">
+                @csrf
+                @method('PUT')
+
+                <label for="nom_usuario">Nombre de Usuario:</label>
+                <input type="text" name="nom_usuario" value="{{ $administrador->nom_usuario }}" required>
+                @error('nom_usuario')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" value="{{ $administrador->nombre }}" required>
+
+                <label for="apellido">Apellido:</label>
+                <input type="text" name="apellido" value="{{ $administrador->apellido }}" required>
+
+                <label for="fono">Teléfono:</label>
+                <input type="text" name="fono" value="{{ $administrador->fono }}">
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" name="direccion" value="{{ $administrador->direccion }}">
+
+                <label for="password">Contraseña:</label>
+                <input type="password" name="password" placeholder="Deja en blanco para mantener la actual">
+                @error('password')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+                <button type="submit">Guardar Cambios</button>
+            </form>
         </div>
+        <!-- Resto del contenido -->
     </section>
-    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>

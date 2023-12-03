@@ -83,13 +83,47 @@
             margin-bottom: 10px;
         }
         .table-container {
-            width: 50%; /* Cambia el porcentaje según tus necesidades */
+            width: 40%; /* Cambia el porcentaje según tus necesidades */
             margin-left: 2%; /* Centra la tabla en el contenedor */
 
             margin-top: 40px;
 
         }
+        .table-container {
+            margin: 20px;
+        }
 
+        h2 {
+            color: #333;
+        }
+
+        .estadisticas-categoria, .estadisticas-ingreso-mensual {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
         
 
         
@@ -147,50 +181,87 @@
             </button>
         </a>
     </header>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <section class="content">
         <div class="table-container">
-            <h2 class="mb-4">Empresas de Envíos <a href="{{ route('courrier.create') }}" class="btn " style=" background-color: #1b3039;
-                color: white; margin-left: 10px;">Agregar nuevo courier</a></h2>
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <table class="table">
+            <h2>Estadísticas de Ventas</h2>
+            <br>
+    
+            <div class="estadisticas-categoria">
+                <h3>Ventas por Categoría</h3>
+                <canvas id="graficoVentasCategoria" width="400" height="200"></canvas>
+                <table>
                     <thead>
                         <tr>
-                            <th>ID Courrier</th>
-                            <th>Nombre</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Acciones</th>
+                            <th>Categoría</th>
+                            <th>Total de Ventas</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($courriers as $courrier)
+                        @foreach($statsPorCategoria as $stat)
                             <tr>
-                                <td>{{ $courrier->id_courrier }}</td>
-                                <td>{{ $courrier->nombre }}</td>
-                                <td>{{ $courrier->direccion }}</td>
-                                <td>{{ $courrier->fono }}</td>
-                                <td>
-                                    <a href="{{ route('courrier.edit', ['id_courrier' => $courrier->id_courrier]) }}" class="btn" style="flex: 1; background-color: #3498db; color: white; padding: 8px 12px; text-align: center; text-decoration: none;">Editar</a>
-                                    <form action="{{ route('courrier.destroy', ['id_courrier' => $courrier->id_courrier]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" style="padding: 8px 12px;" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                                    </form>
-                                    
-                                </td>
+                                <td>{{ $stat->nom_categoria }}</td>
+                                <td>{{ $stat->total_ventas }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+    
+            <div class="estadisticas-ingreso-mensual">
+                <h3>Ingreso Total por Mes</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th>Ingreso Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($statsIngresoMensual as $stat)
+                            <tr>
+                                <td>{{ $stat->mes }}</td>
+                                <td>{{ $stat->ingreso_total }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!-- Resto del contenido -->
     </section>
     
-
+    <script>
+        // Datos de ejemplo (deberías obtener estos datos desde tu controlador)
+        var categorias = @json($statsPorCategoria->pluck('nom_categoria'));
+        var totalVentas = @json($statsPorCategoria->pluck('total_ventas'));
+    
+        // Configuración del gráfico
+        var ctx = document.getElementById('graficoVentasCategoria').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: categorias,
+                datasets: [{
+                    label: 'Total de Ventas',
+                    data: totalVentas,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false, // Comienza desde el valor cero
+                        stepSize:0, // Paso del eje Y
+                    }
+                }
+            }
+        });
+    </script>
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

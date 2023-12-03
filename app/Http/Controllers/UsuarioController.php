@@ -5,6 +5,8 @@ use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User; // Ajusta el modelo de usuario según tu configuración
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class UsuarioController extends Controller
 {
@@ -74,18 +76,50 @@ class UsuarioController extends Controller
         // Lógica para actualizar el perfil
         
         $user = auth()->user();
+    
+        // Determina si estás editando el usuario actual o creando uno nuevo
+        $editandoUsuarioActual = $request->filled('nom_usuario') && $request->nom_usuario === $user->nom_usuario;
+    
+        // Define las reglas de validación
+        $reglas = [
+            'nom_usuario' => $editandoUsuarioActual ? 'required' : 'required|unique:usuario,nom_usuario',
+            'nombre' => 'required',
+            
+            
+            'password' => $request->filled('password') ? 'min:8' : '',
+        ];
+    
+        // Definir mensajes personalizados
+        $messages = [
+            'nom_usuario.required' => 'El nombre de usuario es obligatorio.',
+            'nom_usuario.unique' => 'El nombre de usuario ya está en uso.',
+            'nombre.required' => 'El nombre es obligatorio.',
+            
+            
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+        ];
+    
+        // Validación de los campos
+        $validator = Validator::make($request->all(), $reglas, $messages);
+    
+        // Verifica si la validación falla
+        if ($validator->fails()) {
+            return redirect('/perfil')->withErrors($validator)->withInput();
+        }
+    
+        // Actualiza los campos del modelo excepto la contraseña
         $user->nom_usuario = $request->input('nom_usuario');
         $user->nombre = $request->input('nombre');
         $user->direccion = $request->input('direccion');
         $user->fono = $request->input('fono');
-        $user->correo = $request->input('correo');
     
         // Verifica si se proporcionó una nueva contraseña antes de actualizarla
-        
         if ($request->filled('password')) {
-            $user->password = ($request->input('password'));
+            $user->password = $request->input('password');
         }
+    
         $user->save();
+        
         return redirect('/perfil')->with('success', 'Perfil actualizado correctamente');
     }
     

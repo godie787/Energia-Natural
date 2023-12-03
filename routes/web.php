@@ -11,6 +11,9 @@ use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\CourrierController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\EstadisticasController;
+use App\Http\Controllers\PerfilController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +66,9 @@ Route::middleware(['auth', 'checkRole:1'])->group(function () {
     //Confirma la transferencia
     Route::post('/confirmar-pago', [ProductoController::class, 'confirmarPago']);
 
+    //ver compras
+    Route::get('/compras', [ProductoController::class, 'verCompras'])->name('compras');
+
 
 });
 
@@ -110,9 +116,24 @@ Route::middleware(['auth', 'checkRole:2'])->group(function (){
     Route::post('/courrier/create', [CourrierController::class, 'store'])->name('courrier.store');
     //eliminar courrier
     Route::delete('/courrier/{id_courrier}', [CourrierController::class, 'destroy'])->name('courrier.destroy');
+    //editar courrier
+    Route::get('/courrier/{id_courrier}/edit', [CourrierController::class, 'edit'])->name('courrier.edit');
+    Route::put('/courrier/{id_courrier}', [CourrierController::class, 'update'])->name('courrier.update');
+
 
     //ventas
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.mostrar');
+    //modificar venta (agregar los datos para el envío)
+    Route::post('/ventas/guardar',[VentaController::class, 'guardarModificacion']);
+
+    //estadisticas
+    Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.mostrar');
+
+    //editar perfil admin
+    Route::get('/perfil/admin', [PerfilController::class, 'index'])->name('perfil.admin');
+    //guardar
+    Route::put('/guardar-perfil', [PerfilController::class, 'guardarPerfil'])->name('guardar_perfil');
+
 });
 
 

@@ -213,8 +213,9 @@
 </head>
 <body>
     <header>
-        <div>
-        </div>
+        <a href="/tienda" style="font-family: 'Roboto', sans-serif; font-size: 16px; text-decoration: none; color: white; text-align: left; margin-left: 10px;">
+            <i class="fas fa-store" style="margin-right: 5px;"></i> Tienda
+        </a>
         <div class="header-content">
             <div class="social-dropdown">
                 <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
@@ -228,7 +229,9 @@
                     </button>
                     <div class="dropdown-content" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/perfil"><i class="far fa-user"></i> Mi Perfil</a>
+                        <a class="dropdown-item" href="/compras"><i class="fas fa-shopping-bag"></i> Mis Compras</a>
                         <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                        
                     </div>
             </div>
             </div>

@@ -108,7 +108,7 @@
                 <div class="option-title">Menú de Opciones</div>
                 <hr style="color: #00CED1; margin-right: 10%;">
                 <li><a href="{{route('home')}}"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="{{route('estadisticas.mostrar')}}"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
                 <li><a href="{{route('usuarios.index')}}"><i class="fas fa-users"></i> Usuarios</a></li>
                 <li><a href="{{ route('categorias.create') }}"><i class="fas fa-folder-plus"></i> Categorías</a></li>
                 <li><a href="{{ route('productos.index') }}"><i class="fas fa-box"></i> Productos</a></li>
@@ -121,6 +121,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
+                            <a href="{{ route('perfil.admin') }}" style="color: #333; text-align: center;">
+                                Mi Perfil
+                            </a>
                             <a href="/logout" style="color: #333; text-align: center; padding: 10px;">
                                 Cerrar sesión
                             </a>
@@ -209,8 +212,8 @@
                 <br>
                 
                 <div style="text-align: right;">
-                    <button type="button" onclick="window.location.href='{{ route('productos.index') }}'" class="btn" style="background-color: #3498db; color: white;">Volver a Productos</button>
-                    <button type="submit" class="btn" style="background-color: #e74c3c; color: white;">Guardar Cambios</button>
+                    <button type="button" onclick="window.location.href='{{ route('productos.index') }}'" class="btn btn-secondary" >Volver a Productos</button>
+                    <button type="submit" class="btn" style="background-color: #3498db; color: white;">Guardar Cambios</button>
                 </div>
                 
             </form>

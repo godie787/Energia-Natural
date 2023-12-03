@@ -239,83 +239,37 @@
         </div>
     </header>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-header">Mi Perfil</div>
-                    
-
-                    <div class="card-body">
-                        <!-- Formulario para mostrar y editar datos del usuario -->
-                        <form method="POST" action="{{ url('/perfil') }}" id="perfilForm">
-                            @csrf
-                            @method('PUT')
-                            @include('layouts.partials.messages')
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre de usuario</label>
-                                <input type="text" class="form-control" id="nom_usuario" name="nom_usuario" value="{{ $user->nom_usuario }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $user->nombre }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="direccion" class="form-label">Dirección (Calle, numero y  Comuna)</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ $user->direccion }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="fono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="fono" name="fono" value="{{ $user->fono }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña (Minimo de 8 caracteres)</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Deja en blanco para mantener la actual">
-                            </div>
-                            <div class="btn-group justify-content-end">
-                                <a class="btn btn-secondary mx-2" href="{{ url('/tienda') }}">Ir a la Tienda</a>
-                                <button type="button" class="btn" id="btnActualizarPerfil">Actualizar Perfil</button>
-                            </div>
-                            
-                            
-                            
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1>Mis Compras</h1>
+        <br>
+    
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID Venta</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Número de Envío</th>
+                    <th>Nombre del Courrier</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($compras as $compra)
+                    <tr>
+                        <td>{{ $compra->id_venta }}</td>
+                        <td>{{ $compra->fecha }}</td>
+                        <td>${{ number_format($compra->total, 0, ',', '.') }}</td>
+                        <td>{{ $compra->num_envio }}</td>
+                        <td>{{ $compra->nombre_courrier }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+    
+    
     <div class="footer">
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var btnActualizarPerfil = document.getElementById('btnActualizarPerfil');
-
-            if (btnActualizarPerfil) {
-                btnActualizarPerfil.addEventListener('click', function () {
-                    console.log('Botón clickeado');
-
-                    var perfilForm = document.getElementById('perfilForm');
-
-                    if (perfilForm) {
-                        console.log('Formulario encontrado');
-
-                        // Se utiliza el método submit() del formulario para activar la validación nativa del navegador
-                        perfilForm.submit();
-                    } else {
-                        console.log('Formulario no encontrado');
-                    }
-                });
-            } else {
-                console.log('Botón no encontrado');
-            }
-        });
-    </script>
-
     
 </body>
 </html>

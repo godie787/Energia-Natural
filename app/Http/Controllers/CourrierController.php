@@ -57,4 +57,46 @@ class CourrierController extends Controller
         // Redirige a la página adecuada después de la eliminación
         return redirect()->route('courrier.agregar')->with('success', 'Courrier eliminado exitosamente');
     }
+    public function edit($id_courrier)
+    {
+        $user = auth()->user();
+        // Encuentra el courrier por su ID
+        $courrier = Courrier::find($id_courrier);
+
+        // Verifica si el courrier existe
+        if (!$courrier) {
+            return redirect()->route('courrier.index')->with('error', 'Courrier no encontrado');
+        }
+
+        // Muestra la vista de edición con el courrier
+        return view('courrier.edit', compact('courrier', 'user'));
+    }
+    public function update(Request $request, $id_courrier)
+    {
+        // Valida los datos del formulario
+        $request->validate([
+            'nombre' => 'required|string|max:50',
+            'direccion' => 'required|string|max:80',
+            'fono' => 'required|string|max:12',
+        ]);
+
+        // Encuentra el courrier por su ID
+        $courrier = Courrier::find($id_courrier);
+
+        // Verifica si el courrier existe
+        if (!$courrier) {
+            return redirect()->route('courrier.index')->with('error', 'Courrier no encontrado');
+        }
+
+        // Actualiza los datos del courrier
+        $courrier->update([
+            'nombre' => $request->input('nombre'),
+            'direccion' => $request->input('direccion'),
+            'fono' => $request->input('fono'),
+        ]);
+
+        // Redirige a la vista de edición con un mensaje de éxito
+        return redirect()->route('courrier.edit', ['id_courrier' => $id_courrier])->with('success', 'Courrier actualizado exitosamente');
+    }
+
 }

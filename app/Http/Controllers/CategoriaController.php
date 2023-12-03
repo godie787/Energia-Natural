@@ -127,24 +127,24 @@ class CategoriaController extends Controller
         }
     }
     public function eliminarCategoria($id)
-{
-    // Encuentra la categoría por su ID
-    $categoria = Categoria::find($id);
+    {
+        // Encuentra la categoría por su ID
+        $categoria = Categoria::find($id);
 
-    // Verifica si la categoría existe
-    if ($categoria) {
-        // Verifica si hay productos asociados a la categoría
-        if ($categoria->productos()->count() > 0) {
-            // Hay productos asociados, no se puede eliminar
-            return response()->json(['error' => 'No se puede eliminar la categoría porque tiene productos asociados'], 422);
+        // Verifica si la categoría existe
+        if ($categoria) {
+            // Verifica si hay productos asociados a la categoría
+            if ($categoria->productos()->count() > 0) {
+                // Hay productos asociados, no se puede eliminar
+                return response()->json(['error' => 'No se puede eliminar la categoría porque tiene productos asociados'], 422);
+            }
+
+            // Elimina la categoría
+            $categoria->delete();
+
+            // Devuelve una respuesta exitosa
+            return response()->json(['message' => 'Categoría eliminada correctamente']);
         }
-
-        // Elimina la categoría
-        $categoria->delete();
-
-        // Devuelve una respuesta exitosa
-        return response()->json(['message' => 'Categoría eliminada correctamente']);
     }
-}
 
 }

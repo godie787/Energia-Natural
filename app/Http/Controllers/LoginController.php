@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
@@ -51,6 +52,7 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
+        $this->verCompras();
         if ($user->rol ==1){
             return redirect()->route('tienda');
         }elseif ($user->rol ==2){
