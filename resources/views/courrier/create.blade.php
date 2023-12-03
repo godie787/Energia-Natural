@@ -90,6 +90,12 @@
 
         }
 
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
+        }
+
         
 
         
@@ -166,20 +172,21 @@
                     
                         <div class="form-group">
                             <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" required>
+                            <input type="text" name="nombre" maxlength="50" id="nombre" class="form-control" required>
                         </div>
                     
                         <div class="form-group">
                             <label for="direccion" class="form-label">Dirección:</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" required>
+                            <input type="text" name="direccion" placeholder="max 80 caracteres" maxlength="80" id="direccion" class="form-control" required>
                         </div>
                     
                         <div class="form-group">
                             <label for="fono" class="form-label">Teléfono:</label>
-                            <input type="text" name="fono" id="fono" class="form-control" required>
+                            <input type="text" name="fono" id="fono" placeholder="+569 123456789" maxlength="12" class="form-control" required>
                         </div>
                     
                         <br>
+                        <p class="reglas">Los campos marcados en (*) son obligatorios</p>
                     
                         <div class="d-flex justify-content-end mb-3">
                             <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2">Volver a Couriers</a>
