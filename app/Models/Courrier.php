@@ -11,6 +11,8 @@ class Courrier extends Model
 
     protected $table = 'courrier';
     protected $primaryKey = 'id_courrier';
-    protected $fillable = ['nombre', 'descripcion'];
+    protected $fillable = ['nombre', 'direccion', 'fono'];
+
+    public $timestamps = false;
     // Resto de tus propiedades y métodos si es necesario
 }

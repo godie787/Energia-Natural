@@ -139,20 +139,48 @@
     </header>
 
     <section class="content">
-        <div class="welcome-container">
-            <h1>Bienvenido/a al Sistema</h1>
-            <p>¡Hola {{ $user->nombre }}! Te damos la bienvenida al moderno sistema de administración.</p>
-            <p>Aquí encontrarás opciones para gestionar usuarios, categorías, productos y más.</p>
-            <p>Explora el menú de opciones a la izquierda para comenzar.</p>
+        <div class="table-container">
+            <h2 class="mb-4">Empresas de Envíos <a href="{{ route('courrier.create') }}" class="btn " style=" background-color: #1b3039;
+                color: white; margin-left: 10px;">Agregar nueva Empresa</a></h2>
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Courrier</th>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($courriers as $courrier)
+                            <tr>
+                                <td>{{ $courrier->id_courrier }}</td>
+                                <td>{{ $courrier->nombre }}</td>
+                                <td>{{ $courrier->direccion }}</td>
+                                <td>{{ $courrier->fono }}</td>
+                                <td>
+                                    <a href="#" class="btn " style="flex: 1; background-color: #3498db; color: white; padding: 8px 12px; text-align: center; text-decoration: none;">Editar</a>
+                                    <form action="{{ route('courrier.destroy', ['id_courrier' => $courrier->id_courrier]) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" style="padding: 8px 12px;" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
+                                    </form>
+                                    
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
         </div>
-        <!-- Resto del contenido -->
     </section>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-
-

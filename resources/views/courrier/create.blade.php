@@ -82,6 +82,13 @@
             color: #fff;
             margin-bottom: 10px;
         }
+        .table-container {
+            width: 40%; /* Cambia el porcentaje según tus necesidades */
+            margin-left: 10%; /* Centra la tabla en el contenedor */
+
+            margin-top: 60px;
+
+        }
 
         
 
@@ -139,20 +146,48 @@
     </header>
 
     <section class="content">
-        <div class="welcome-container">
-            <h1>Bienvenido/a al Sistema</h1>
-            <p>¡Hola {{ $user->nombre }}! Te damos la bienvenida al moderno sistema de administración.</p>
-            <p>Aquí encontrarás opciones para gestionar usuarios, categorías, productos y más.</p>
-            <p>Explora el menú de opciones a la izquierda para comenzar.</p>
+        <div class="table-container" >
+            <h2 class="mb-4">Nuevo Courrier</h2>
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <form action="{{ route('courrier.create') }}" method="POST">
+                        @csrf
+                    
+                        <div class="form-group">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" required>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="direccion" class="form-label">Dirección:</label>
+                            <input type="text" name="direccion" id="direccion" class="form-control" required>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="fono" class="form-label">Teléfono:</label>
+                            <input type="text" name="fono" id="fono" class="form-control" required>
+                        </div>
+                    
+                        <br>
+                    
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2">Ver Courriers</a>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+                        
+                    </form>                    
         </div>
-        <!-- Resto del contenido -->
     </section>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-
-

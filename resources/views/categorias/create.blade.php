@@ -3,110 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <title>Energia Natural</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('{{ asset("images/fondo.jpg") }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #f4f4f4; /* Fondo gris claro */
+            font-size: 16px;
         }
 
+        .header {
+            background-color: #333; /* Fondo negro */
+            padding: 8px 16px;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            height: 50px;
+        }
 
-        .form-container {
-            max-width: 800px;
+        .menu-container {
+            background-color: #333; /* Fondo negro */
+            width: 220px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+            box-shadow: 3px 0px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-left: 12%;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #fff; /* Texto blanco */
+            text-decoration: none;
+            padding: 12px;
+            transition: background-color 0.3s;
             
-            margin: 20px auto;
-            background-color: #fff;
+        }
+
+        .nav-links a:hover {
+            background-color: #555; /* Cambio de color en hover */
+        }
+
+        .content {
+            margin-left: 220px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .btn-contact {
+            font-size: 12px;
         }
 
-        .form-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
+        .welcome-container {
+            background-color: #666; /* Fondo gris oscuro */
             color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
         }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="logo">
-            <img src="{{ asset('images/logo_empresa.JPG') }}" alt="Logo de la marca">
-        </div>
-        
-        <nav>
-            <ul class="nav-links">
-                @guest
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/login">Iniciar sesión</a>
-                        </li>
-                @endguest
-                @auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Estadísticas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('usuarios.index')}}">Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categorias.create') }}">Categorías</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('productos.index') }}">Productos</a>
-                    </li>
 
-                    <!-- Enlace para abrir el formulario de creación de productos -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            {{ $user->nombre }}
-                        </a>
-                        <ul class="dropdown-menu" style="padding-top:0px; padding-bottom:5px;padding-right:0px;">
-                            <a href="/logout" class="nav-link active" aria-current="page"
-                            style="color:black; font-size:17px; margin-left:20px; margin-bottom:0px;margin-top:10px;">Cerrar
-                                sesión</a>
-                        </ul>
-                    </li>
-                @endauth
-            </ul>
+        .option-title {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .table-container {
+            width: 40%; /* Cambia el porcentaje según tus necesidades */
+            margin-left: 15%; /* Centra la tabla en el contenedor */
+
+            margin-top: 60px;
+
+        }
+
+        
+    </style>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+
+
+    </head>
+<body>
+    <div class="menu-container">
+        <ul class="nav-links">
+            @auth
+                <div class="option-title">Menú de Opciones</div>
+                <hr style="color: #00CED1; margin-right: 10%;">
+                <li><a href="{{route('home')}}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Estadísticas</a></li>
+                <li><a href="{{route('usuarios.index')}}"><i class="fas fa-users"></i> Usuarios</a></li>
+                <li><a href="{{ route('categorias.create') }}"><i class="fas fa-folder-plus"></i> Categorías</a></li>
+                <li><a href="{{ route('productos.index') }}"><i class="fas fa-box"></i> Productos</a></li>
+                <li><a href="{{ route('courrier.agregar') }}"><i class="fas fa-shipping-fast"></i> Courrier</a></li>
+                <li><a href="{{ route('ventas.mostrar') }}"><i class="fas fa-chart-line"></i> Ventas</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <span style="font-weight: bold;"><i class="fas fa-sign-out-alt"></i> {{ $user->nombre }} </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/logout" style="color: #333; text-align: center; padding: 10px;">
+                                Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endauth
+        </ul>
+    </div>
+    <header class="header" >
+        <div class="logo">
+            <!-- Logo eliminado -->
+        </div>
+        <nav>
+            <!-- Mantiene el contenido del encabezado -->
         </nav>
-        <a class="btn" href="#"><button>Contacto</button></a>
+        <a href="#" class="btn btn-contact">
+            <button style="background-color: #666; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 14px; cursor: pointer;">
+                Contacto
+            </button>
+        </a>
     </header>
     @auth
-        <section class="vh-100">
-            <div class="form-container" style="margin-top:100px">
+        <section >
+            <div class="table-container" >
                 <h2 class="mb-4">Crear Categoria</h2>
                         @if(session('error'))
                             <div class="alert alert-danger">
@@ -128,8 +166,9 @@
                                 <label for="descripcion" class="form-label">Descripción:</label>
                                 <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
                             </div>
+                            <br>
                             <div>
-                                <button type="submit" class="btn" style="background-color: #1b3039; color: white">Crear Categoría</button>
+                                <button type="submit" class="btn" style="background-color: #3498db; color: white">Crear Categoría</button>
                                 <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#existingCategoriesModal">
                                     Ver Categorías
                                 </button>
@@ -137,7 +176,7 @@
                                     Editar Categorías
                                 </button>
                                 <!-- Botón para eliminar categoría -->
-                                <a style="background-color: #A44848; color: white;" class="btn" data-bs-toggle="modal" data-bs-target="#eliminarCategoriasModal">Eliminar Categorias</a>
+                                <a style="background-color: #e74c3c; color: white;" class="btn" data-bs-toggle="modal" data-bs-target="#eliminarCategoriasModal">Eliminar Categorias</a>
 
                             </div>
                         </form>

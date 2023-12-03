@@ -9,6 +9,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\CourrierController;
+use App\Http\Controllers\VentaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,8 +103,16 @@ Route::middleware(['auth', 'checkRole:2'])->group(function (){
     //busqueda por nombre de usuarios
     Route::get('/usuarios/search', [UsuarioController::class, 'search'])->name('usuarios.search');
 
+    //courrier
+    Route::get('/courrier', [CourrierController::class, 'index'])->name('courrier.agregar');
+    //agregar courrier
+    Route::get('/courrier/create', [CourrierController::class, 'create'])->name('courrier.create');
+    Route::post('/courrier/create', [CourrierController::class, 'store'])->name('courrier.store');
+    //eliminar courrier
+    Route::delete('/courrier/{id_courrier}', [CourrierController::class, 'destroy'])->name('courrier.destroy');
 
-
+    //ventas
+    Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.mostrar');
 });
 
 
