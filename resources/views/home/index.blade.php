@@ -70,6 +70,7 @@
         .welcome-container {
             background-color: #666; /* Fondo gris oscuro */
             color: #fff;
+            border: 2px solid #00CED1;
             padding: 20px;
             border-radius: 10px;
             margin: 20px;

@@ -198,13 +198,13 @@
                             <td>{{ $usuario->correo }}</td>
                             <td>
                                 
-                                <a href="#" style="background-color: #3498db; color: white;" class="btn editar-btn" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" data-id="{{ $usuario->rut }}">Editar</a>
+                                <a href="#" style="background-color: #3498db; color: white;" class="btn editar-btn" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" data-id="{{ $usuario->rut }}">Cambiar Rol</a>
 
                                 <form id="eliminarForm{{ $usuario->rut }}" action="{{ route('usuarios.destroy', $usuario->rut) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <a href="#" style="background-color: #e74c3c; color: white;" class="btn" data-id="{{ $usuario->rut }}">Eliminar</a>
+                                
                             </td>
                             
                         </tr>
@@ -238,31 +238,28 @@
                                             <!-- Campo Nombre de Usuario -->
                                             <div class="form-group">
                                                 <label for="editar_nom_usuario">Nombre de Usuario:</label>
-                                                <input type="text" class="form-control" name="nom_usuario" id="editar_nom_usuario" value="{{ $listadoUsuarios->first()->nom_usuario }}" required>
+                                                <input type="text" class="form-control" name="nom_usuario" id="editar_nom_usuario" value="{{ $listadoUsuarios->first()->nom_usuario }}" required readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="editar_nombre">Nombre:</label>
-                                                <input type="text" class="form-control" name="nombre" id="editar_nombre" value="{{ $listadoUsuarios->first()->nombre }}" required>
+                                                <input type="text" class="form-control" name="nombre" id="editar_nombre" value="{{ $listadoUsuarios->first()->nombre }}" required readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="editar_apellido">Apellido:</label>
-                                                <input type="text" class="form-control" name="apellido" id="editar_apellido" value="{{ $listadoUsuarios->first()->apellido }}" required>
+                                                <input type="text" class="form-control" name="apellido" id="editar_apellido" value="{{ $listadoUsuarios->first()->apellido }}" required readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="editar_fono">Fono:</label>
-                                                <input type="text" class="form-control" name="fono" id="editar_fono" value="{{ $listadoUsuarios->first()->fono }}" >
+                                                <input type="text" class="form-control" name="fono" id="editar_fono" value="{{ $listadoUsuarios->first()->fono }}" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="editar_direccion">Direccion:</label>
-                                                <input type="text" class="form-control" name="direccion" id="editar_direccion" value="{{ $listadoUsuarios->first()->direccion }}" >
+                                                <input type="text" class="form-control" name="direccion" id="editar_direccion" value="{{ $listadoUsuarios->first()->direccion }}" readonly>
                                             </div>
 
-                                            <!-- Repite estos bloques para otros campos -->
-
-                                            <!-- Campo Correo -->
                                             <div class="form-group">
                                                 <label for="editar_correo">Correo:</label>
-                                                <input type="text" class="form-control" name="correo" id="editar_correo" value="{{ $listadoUsuarios->first()->correo }}" required>
+                                                <input type="text" class="form-control" name="correo" id="editar_correo" value="{{ $listadoUsuarios->first()->correo }}" readonly required>
                                             </div>
 
                                             <!-- Separación -->

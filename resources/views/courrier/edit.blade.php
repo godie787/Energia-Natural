@@ -83,11 +83,16 @@
             margin-bottom: 10px;
         }
         .table-container {
-            width: 40%; /* Cambia el porcentaje según tus necesidades */
+            width: 30%; /* Cambia el porcentaje según tus necesidades */
             margin-left: 2%; /* Centra la tabla en el contenedor */
 
             margin-top: 40px;
 
+        }
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
         }
 
         
@@ -172,21 +177,22 @@
 
                 <!-- Campos del formulario -->
                 <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $courrier->nombre }}" required>
+                    <label for="nombre"> *Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $courrier->nombre }}" maxlength="50" placeholder="max 50 caracteres" required>
                 </div>
-
+                <br>
                 <div class="form-group">
-                    <label for="direccion">Dirección:</label>
-                    <input type="text" name="direccion" id="direccion" class="form-control" value="{{ $courrier->direccion }}" required>
+                    <label for="direccion"> *Dirección:</label>
+                    <input type="text" name="direccion" id="direccion" class="form-control" value="{{ $courrier->direccion }}" maxlength="80" placeholder="max 80 caracteres" required>
                 </div>
-
+                <br>
                 <div class="form-group">
-                    <label for="fono">Teléfono:</label>
-                    <input type="text" name="fono" id="fono" class="form-control" value="{{ $courrier->fono }}" required>
+                    <label for="fono"> *Teléfono:</label>
+                    <input type="text" name="fono" id="fono" placeholder="569 123456789" maxlength="20" class="form-control" value="{{ $courrier->fono }}" required>
                 </div>
                 <br>
                 <!-- Botón de enviar -->
+                <p class="reglas">Los campos marcados en (*) son obligatorios</p>
                 <div class="d-flex">
                     <a href="{{ route('courrier.agregar') }}" class="btn btn-secondary me-2 ">Volver a Couriers</a>
                     <button type="submit" class="btn" style="background-color: #3498db; color: white">Guardar cambios</button>

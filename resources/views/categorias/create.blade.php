@@ -172,8 +172,8 @@
                                 <input type="text" name="nom_categoria" placeholder="max 50 caracteres" maxlength="50" id="nom_categoria" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="descripcion" class="form-label">* Descripción:</label>
-                                <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" maxlength="30" class="form-control"></textarea>
+                                <label for="descripcion" class="form-label">Descripción:</label>
+                                <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 80 caracteres" maxlength="80" class="form-control"></textarea>
                             </div>
                             <br>
                             <p class="reglas">Los campos marcados en (*) son obligatorios</p>
@@ -240,9 +240,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="descripcion_editar" class="form-label">Descripción:</label>
-                                    <textarea name="descripcion_editar" id="descripcion_editar" class="form-control"></textarea>
+                                    <textarea name="descripcion_editar" id="descripcion_editar" class="form-control" maxlength="80" placeholder="max 80 caracteres" ></textarea>
                                 </div>
-            
+                                <br>
                                 <!-- Botón para guardar cambios -->
                                 <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
                             </form>

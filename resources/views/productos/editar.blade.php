@@ -166,7 +166,7 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="nom_producto" class="form-label">* Nombre del Producto</label>
-                    <input type="text" name="nom_producto" maxlength="50" id="nom_producto" class="form-control" value="{{ $producto->nom_producto }}" required>
+                    <input type="text" name="nom_producto" maxlength="50" id="nom_producto" class="form-control" value="{{ $producto->nom_producto }}" placeholder="max 50 caracteres" required>
                 </div>
 
                 <div class="form-group">
@@ -180,7 +180,7 @@
 
                 <div class="form-group">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" maxlength="30" class="form-control">{{ $producto->descripcion }}</textarea>
+                    <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 80 caracteres" maxlength="80" class="form-control">{{ $producto->descripcion }}</textarea>
                 </div>
 
                 <div class="form-group">

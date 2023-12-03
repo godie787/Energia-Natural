@@ -83,7 +83,7 @@
             margin-bottom: 10px;
         }
         .table-container {
-            width: 40%; /* Cambia el porcentaje según tus necesidades */
+            width: 50%; /* Cambia el porcentaje según tus necesidades */
             margin-left: 2%; /* Centra la tabla en el contenedor */
 
             margin-top: 40px;
@@ -172,7 +172,7 @@
                     
                         <div class="form-group">
                             <label for="nombre" class="form-label">* Nombre:</label>
-                            <input type="text" name="nombre" maxlength="50" id="nombre" class="form-control" required>
+                            <input type="text" name="nombre" placeholder="max 50 caracteres" maxlength="50" id="nombre" class="form-control" required>
                         </div>
                     
                         <div class="form-group">
@@ -182,7 +182,7 @@
                     
                         <div class="form-group">
                             <label for="fono" class="form-label">* Teléfono:</label>
-                            <input type="text" name="fono" id="fono" placeholder="+569 123456789" maxlength="12" class="form-control" required>
+                            <input type="text" name="fono" id="fono" placeholder="569 123456789" maxlength="20" class="form-control" required>
                         </div>
                     
                         <br>

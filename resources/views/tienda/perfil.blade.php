@@ -253,21 +253,21 @@
                             @include('layouts.partials.messages')
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre de usuario</label>
-                                <input type="text" class="form-control" id="nom_usuario" name="nom_usuario" value="{{ $user->nom_usuario }}" required>
+                                <input type="text" maxlength="30" class="form-control" id="nom_usuario" name="nom_usuario" value="{{ $user->nom_usuario }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $user->nombre }}" required>
+                                <input type="text" maxlength="30" class="form-control" id="nombre" name="nombre" value="{{ $user->nombre }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="direccion" class="form-label">Dirección (Calle, numero y  Comuna)</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ $user->direccion }}" required>
+                                <input type="text" maxlength="50" class="form-control" id="direccion" name="direccion" value="{{ $user->direccion }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="fono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="fono" name="fono" value="{{ $user->fono }}" required>
+                                <input type="text" maxlength="19" class="form-control" id="fono" name="fono" value="{{ $user->fono }}" required>
                             </div>
 
                             <div class="mb-3">

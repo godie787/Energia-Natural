@@ -84,8 +84,8 @@
         }
         .table-container {
             width: 40%; /* Cambia el porcentaje según tus necesidades */
-            margin-left: 15%; /* Centra la tabla en el contenedor */
-            margin-top: 60px;
+            margin-left: 2%; /* Centra la tabla en el contenedor */
+            margin-top: 40px;
 
         }
         h2 {
@@ -122,6 +122,11 @@
 
         button:hover {
             background-color: #45a049;
+        }
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
         }
         
 
@@ -195,15 +200,15 @@
                 @csrf
                 @method('PUT')
 
-                <label for="nom_usuario">Nombre de Usuario:</label>
+                <label for="nom_usuario">*Nombre de Usuario:</label>
                 <input type="text" name="nom_usuario" value="{{ $administrador->nom_usuario }}" required>
                 @error('nom_usuario')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">*Nombre:</label>
                 <input type="text" name="nombre" value="{{ $administrador->nombre }}" required>
 
-                <label for="apellido">Apellido:</label>
+                <label for="apellido">*Apellido:</label>
                 <input type="text" name="apellido" value="{{ $administrador->apellido }}" required>
 
                 <label for="fono">Teléfono:</label>
@@ -217,6 +222,7 @@
                 @error('password')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
+                <p class="reglas">Los campos marcados en (*) son obligatorios</p>
                 <button type="submit">Guardar Cambios</button>
             </form>
         </div>
