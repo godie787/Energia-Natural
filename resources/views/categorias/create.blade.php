@@ -169,11 +169,11 @@
                             @csrf
                             <div class="form-group">
                                 <label for="nom_categoria" class="form-label">* Nombre de la Categoría:</label>
-                                <input type="text" name="nom_categoria" placeholder="max 50 caracteres" required maxlength="50" id="nom_categoria" class="form-control" required>
+                                <input type="text" name="nom_categoria" placeholder="max 50 caracteres" maxlength="50" id="nom_categoria" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="descripcion" class="form-label">* Descripción:</label>
-                                <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" required maxlength="30" class="form-control"></textarea>
+                                <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" maxlength="30" class="form-control"></textarea>
                             </div>
                             <br>
                             <p class="reglas">Los campos marcados en (*) son obligatorios</p>
