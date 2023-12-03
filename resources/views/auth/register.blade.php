@@ -190,31 +190,26 @@
           <form method="POST" action="/register" >
             @csrf
             @include('layouts.partials.messages')
-
             <h3 class="fw-normal mb-3 pb-2" style="letter-spacing: 1px;">Crear cuenta</h3>
 
             <div class="form-outline mb-2">
                 <label class="form-label" for="rut">Rut (sin puntos ni guión)</label>
-                <input value="{{ old('rut') }}"type="text" id="rut" name ="rut" class="form-control form-control-lg" />
-                
+                <input value="{{ old('rut') }}"type="text" maxlength="12" id="rut" name ="rut" class="form-control form-control-lg" />
             </div>
 
             <div class="form-outline mb-2">
                 <label class="form-label" for="nom_usuario">Nombre de Usuario</label>
                 <input value="{{ old('nom_usuario') }}" type="text" id="nom_usuario"name ="nom_usuario" class="form-control form-control-lg" />
-                
             </div>
 
             <div class="form-outline mb-2">
                 <label class="form-label" for="nombre">Nombre</label>
                 <input value="{{ old('nombre') }}"type="text" id="nombre" name ="nombre"class="form-control form-control-lg" />
-                
             </div>
 
             <div class="form-outline mb-2">
                 <label class="form-label" for="apellido">Apellido</label>
                 <input value="{{ old('apellido') }}"type="text" id="apellido"name="apellido" class="form-control form-control-lg" />
-                
             </div>
 
             <div class="form-outline mb-2">
