@@ -91,6 +91,12 @@
             margin-top: 60px;
 
         }
+        
+        .reglas{
+            font-size: 1.1em;
+            color: #ff0000;
+            font-weight: bold;
+        }
 
         
     </style>
@@ -159,12 +165,12 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="nom_producto" class="form-label">Nombre del Producto</label>
-                    <input type="text" name="nom_producto" id="nom_producto" class="form-control" value="{{ $producto->nom_producto }}" required>
+                    <label for="nom_producto" class="form-label">* Nombre del Producto</label>
+                    <input type="text" name="nom_producto" maxlength="50" id="nom_producto" class="form-control" value="{{ $producto->nom_producto }}" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="id_categoria" class="form-label">Categoria</label>
+                    <label for="id_categoria" class="form-label">* Categoria</label>
                     <select name="id_categoria" id="id_categoria" class="form-control" required>
                         @foreach($categorias as $categoria)
                         <option value="{{ $categoria->id_categoria }}">{{ $categoria->nom_categoria }}</option>
@@ -174,11 +180,11 @@
 
                 <div class="form-group">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea name="descripcion" id="descripcion" class="form-control">{{ $producto->descripcion }}</textarea>
+                    <textarea name="descripcion" id="descripcion" placeholder="Detalles, max 30 caracteres" maxlength="30" class="form-control">{{ $producto->descripcion }}</textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="precio_venta" class="form-label">Precio de Venta</label>
+                    <label for="precio_venta" class="form-label">* Precio de Venta</label>
                     <input value="{{ $producto->precio_venta }}" type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.01" required>
                     <div id="mensajePrecio" style="color: red;"></div>
                 </div>
@@ -203,14 +209,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="estado" class="form-label">Estado (Disponibilidad)</label>
+                    <label for="estado" class="form-label">* Estado (Disponibilidad)</label>
                     <select name="estado" id="estado" class="form-control" required>
                         <option value="1" {{ $producto->estado ? 'selected' : '' }}>Disponible</option>
                         <option value="0" {{ !$producto->estado ? 'selected' : '' }}>No Disponible</option>
                     </select>
                 </div>
                 <br>
-                
+                <p class="reglas">Los campos marcados en (*) son obligatorios</p>
                 <div style="text-align: right;">
                     <button type="button" onclick="window.location.href='{{ route('productos.index') }}'" class="btn btn-secondary" >Volver a Productos</button>
                     <button type="submit" class="btn" style="background-color: #3498db; color: white;">Guardar Cambios</button>
