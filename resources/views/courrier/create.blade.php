@@ -171,17 +171,17 @@
                         @csrf
                     
                         <div class="form-group">
-                            <label for="nombre" class="form-label">Nombre:</label>
+                            <label for="nombre" class="form-label">* Nombre:</label>
                             <input type="text" name="nombre" maxlength="50" id="nombre" class="form-control" required>
                         </div>
                     
                         <div class="form-group">
-                            <label for="direccion" class="form-label">Dirección:</label>
+                            <label for="direccion" class="form-label">* Dirección:</label>
                             <input type="text" name="direccion" placeholder="max 80 caracteres" maxlength="80" id="direccion" class="form-control" required>
                         </div>
                     
                         <div class="form-group">
-                            <label for="fono" class="form-label">Teléfono:</label>
+                            <label for="fono" class="form-label">* Teléfono:</label>
                             <input type="text" name="fono" id="fono" placeholder="+569 123456789" maxlength="12" class="form-control" required>
                         </div>
                     
