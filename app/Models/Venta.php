@@ -27,4 +27,10 @@ class Venta extends Model
     {
         return $this->hasMany(DetalleVenta::class, 'id_venta');
     }
+    // En tu modelo Venta
+    public function courrier()
+    {
+        return $this->belongsTo(Courrier::class, 'id_courrier', 'id_courrier');
+    }
+
 }

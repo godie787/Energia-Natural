@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'nom_usuario.required' => 'El nombre de usuario es obligatorio.',
             
-            
+            'nombre.required' => 'El nombre es obligatorio',
             'correo.email'=>'La dirección de correo electrónico debe tener un formato valido',
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos :min caracteres.',

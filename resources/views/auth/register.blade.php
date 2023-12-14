@@ -179,17 +179,27 @@
 
 <body>
     <header>
-        <div>
-        </div>
-        <div class="header-content">
-            <div class="social-dropdown">
+        <a href="/Energia Natural" style="font-family: 'Roboto', sans-serif; font-size: 16px; text-decoration: none; color: white; text-align: left; margin-left: 10px;">
+            <i class="fas fa-store" style="margin-right: 5px;"></i> Tienda
+        </a>
+        <div class="header-content" style="float: right; margin-right: 10px;">
+            <div class="social-dropdown" style="float: left; margin-right: 10px;">
                 <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
-                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
+                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
                 </a>
             </div>
-            <div class="divider"></div>
+    
+            <!-- Agregar logos para iniciar sesión y registrarse -->
+            <a href="/login" style="color: white; text-decoration: none; margin-right: 10px;">
+                <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i> Iniciar sesión
+            </a>
+            <div class="divider" style="float: left; border-right: 1px solid white; height: 20px; margin-right: 10px;"></div>
+            <a href="/register" style="color: white; text-decoration: none; margin-left: 10px;">
+                <i class="fas fa-user-plus" style="margin-right: 5px;"></i> Registrarse
+            </a>
         </div>
     </header>
+    
 
     <div class="container mt-4">
         <div class="login-container p-4">

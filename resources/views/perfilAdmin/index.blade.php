@@ -162,7 +162,7 @@
                             <a href="{{ route('perfil.admin') }}" style="color: #333; text-align: center;">
                                 Mi Perfil
                             </a>
-                            <a href="" style="color: #333; text-align: center;">
+                            <a href="/logout" style="color: #333; text-align: center;">
                                 Cerrar sesión
                             </a>
                             
@@ -201,21 +201,21 @@
                 @method('PUT')
 
                 <label for="nom_usuario">*Nombre de Usuario:</label>
-                <input type="text" name="nom_usuario" value="{{ $administrador->nom_usuario }}" required>
+                <input type="text" name="nom_usuario" maxlength="30" placeholder="max 30 caracteres" value="{{ $administrador->nom_usuario }}" required>
                 @error('nom_usuario')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <label for="nombre">*Nombre:</label>
-                <input type="text" name="nombre" value="{{ $administrador->nombre }}" required>
+                <input type="text" name="nombre" maxlength="80" placeholder="max 80 caracteres" value="{{ $administrador->nombre }}" required>
 
                 <label for="apellido">*Apellido:</label>
-                <input type="text" name="apellido" value="{{ $administrador->apellido }}" required>
+                <input type="text" name="apellido" maxlength="80" placeholder="max 80 caracteres" value="{{ $administrador->apellido }}" required>
 
                 <label for="fono">Teléfono:</label>
-                <input type="text" name="fono" value="{{ $administrador->fono }}">
+                <input type="text" name="fono" maxlength="20" placeholder="569 30055927" value="{{ $administrador->fono }}">
 
                 <label for="direccion">Dirección:</label>
-                <input type="text" name="direccion" value="{{ $administrador->direccion }}">
+                <input type="text" name="direccion" maxlength="50" placeholder="max 50 caracteres" value="{{ $administrador->direccion }}">
 
                 <label for="password">Contraseña:</label>
                 <input type="password" name="password" placeholder="Deja en blanco para mantener la actual">

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Cuarzos Energía Natural</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome (para iconos) -->
@@ -17,9 +16,7 @@
 
     <!-- Bootstrap JS (asegúrate de que sea la misma versión que el CSS) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&family=Poppins:wght@500&display=swap">
+
     <!-- Estilos personalizados -->
     <style>
         body {
@@ -300,6 +297,33 @@
         #floating-message:hover {
             background-color: rgba(159, 61, 107, 1); /* Color al pasar el ratón */
         }
+        .modal-header {
+        text-align: right; /* Alinea la 'X' y el título a la derecha */
+    }
+
+    .close {
+        position: relative;
+        font-size: 2rem; /* Ajusta el tamaño según tus preferencias */
+        line-height: 1;
+        color: transparent;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        margin-right: 10px; /* Ajusta el margen según tus preferencias */
+    }
+
+    .close::before, .close::after {
+        content: '\00d7'; /* Código Unicode para la 'X' */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: inherit;
+        line-height: inherit;
+        color: #000; /* Cambia el color según tus preferencias */
+        opacity: 0.5; /* Ajusta la opacidad según tus preferencias */
+    }
         
 
     </style>
@@ -308,34 +332,27 @@
 <body>
     
     <header>
-        <a href="/tienda" style="font-family: 'Roboto', sans-serif; font-size: 16px; text-decoration: none; color: white; text-align: left; margin-left: 10px;">
+        <a href="/Energia Natural" style="font-family: 'Roboto', sans-serif; font-size: 16px; text-decoration: none; color: white; text-align: left; margin-left: 10px;">
             <i class="fas fa-store" style="margin-right: 5px;"></i> Tienda
         </a>
-        <div class="header-content">
-            <div class="social-dropdown">
-                <div class="social-dropdown" style="float: left; margin-right: 10px;">
-                    <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
-                        <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
-                    </a>
-                </div>
-                <div class="dropdown">
-                    
-                    <button class=" btn-no-bg-text dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    {{ $user->nombre }}
-                    </button>
-                    <div class="dropdown-content" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/perfil"><i class="far fa-user"></i> Mi Perfil</a>
-                        <a class="dropdown-item" href="/compras"><i class="fas fa-shopping-bag"></i> Mis Compras</a>
-                        <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-                        
-                    </div>
+        <div class="header-content" style="float: right; margin-right: 10px;">
+            <div class="social-dropdown" style="float: left; margin-right: 10px;">
+                <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
+                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
+                </a>
             </div>
-            </div>
-            <div class="divider"></div>
-            <a href="/carrito" class="btn-white-margin"><i id="carrito-icon" class="fas fa-shopping-cart"></i></a>
+    
+            <!-- Agregar logos para iniciar sesión y registrarse -->
+            <a href="/login" style="color: white; text-decoration: none; margin-right: 10px;">
+                <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i> Iniciar sesión
+            </a>
+            <div class="divider" style="float: left; border-right: 1px solid white; height: 20px; margin-right: 10px;"></div>
+            <a href="/register" style="color: white; text-decoration: none; margin-left: 10px;">
+                <i class="fas fa-user-plus" style="margin-right: 5px;"></i> Registrarse
+            </a>
         </div>
     </header>
+    
     <!-- Banner con texto -->
     <div class="banner-container">
         <img src="{{ asset('images/banner6.jpeg') }}" class="banner" alt="Banner de Cuarzos Energía Natural">
@@ -348,33 +365,8 @@
     <div class="search-section">
         <div class="container">
             <h2 style= "font-family: 'Nunito Sans', sans-serif;" class="section-title">Explora nuestros productos</h2>
-            <div class="search-container">
-                <form id="ordenForm" action="{{ route('ordenar.productos') }}" method="GET">
-                    <label for="orderSelect">Ordenar por:</label>
-                    <select class="search-select" id="orderSelect" name="orden" onchange="submitForm()">
-                        <option value="precioAsc">Todos los Precios</option>
-                        <option value="precioAsc">Precio Ascendente</option>
-                        <option value="precioDesc">Precio Descendente</option>
-                        <!-- Agrega más opciones según sea necesario -->
-                    </select>
-                </form>
-                <form id="filtroForm" action="{{ route('filtrar.productos') }}" method="GET">
-                    <label for="categorySelect">Buscar por Categoría:</label>
-                    <select class="search-select" id="categorySelect" name="categoria" onchange="submitForme()">
-                        <option value="">Todas las Categorías</option>
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id_categoria }}" {{ isset($categoriaSeleccionada) && $categoria->id_categoria == $categoriaSeleccionada ? 'selected' : '' }}>
-                                {{ $categoria->nom_categoria }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
-            </div>
         </div>
     </div>
-    <a href="/carrito" id="floating-message" onclick="$(this).fadeOut();">
-        <span id="product-name"></span> agregado al carrito. Haz clic para ir al carrito.
-    </a>
 
     <div class="container">
         <div class="row">
@@ -384,13 +376,9 @@
                         <img class="product-image" data-bs-toggle="modal" data-bs-target="#modalProducto{{ $producto->id_producto }}" src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}">
                         <h5 class="product-title" data-bs-toggle="modal" data-bs-target="#modalProducto{{ $producto->id_producto }}">{{ $producto->nom_producto }}</h5>
                         <p class="precio">${{ number_format($producto->precio_venta, 0, '.', '.') }}</p>
-                        @if ($producto->estado == 1)
-                            <button class="btn" style="margin-top: 5px;" onclick="agregarAlCarrito('{{ $producto->id_producto }}', '{{ $producto->nom_producto }}', '{{ $producto->precio_venta }}', '{{ asset('storage/' . $producto->imagen) }}', this)">
-                                <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-                            </button>
-                        @else
-                            <button class="btn" style="margin-top: 5px; color:red" disabled>No disponible</button>
-                        @endif
+                        <button id="addToCartBtn" class="btn" style="margin-top: 5px;" onclick="addToCart()">
+                            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        </button>
                     </div>
                 </div>
             @endforeach
@@ -401,6 +389,28 @@
         © 2023 Cuarzos Energía Natural - Tienda en línea
     </div>
     <!--MODAL-->
+    <!-- Modal HTML -->
+    <div id="loginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+
+                    
+                </div>
+                <div class="modal-body">
+                    <p>Por favor, inicia sesión para ver disponibilidad y agregar al carrito.</p>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="window.location.href='/login'" type="button" class="btn btn-default">Iniciar sesión</button>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @foreach ($productos as $producto)
         <div class="modal fade" id="modalProducto{{ $producto->id_producto }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -410,8 +420,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" class="card-image">
-                        
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nom_producto }}" class="card-image">          
                         <p>{{ $producto->descripcion }}</p>
                         <p class="precio">Precio: ${{ number_format($producto->precio_venta, 0, '.', '.') }}</p>
                         <!-- Agrega cualquier otra información que desees mostrar -->
@@ -435,49 +444,22 @@
         }
     </script>
     <script>
-        function agregarAlCarrito(productoId, nombre, precio, imagen, boton) {
-            // Deshabilitar el botón para evitar múltiples clics
-            boton.disabled = true;
-    
-            const producto = { id: productoId, nombre: nombre, precio: precio, imagen: imagen };
-            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            carrito.push(producto);
-            localStorage.setItem('carrito', JSON.stringify(carrito));
-    
-            // Realiza una solicitud AJAX para cambiar el estado del producto
-            $.ajax({
-                type: 'POST',
-                url: '/actualizar-estado-producto-agregar',
-                data: { productoId: productoId, _token: '{{ csrf_token() }}' },
-                success: function(response) {
-                    console.log('Estado del producto actualizado');
-    
-                    // Mostrar el mensaje flotante
-                    mostrarMensaje(nombre);
-                },
-                error: function(error) {
-                    console.error('Error al actualizar el estado del producto', error);
-                }
-            });
+        function addToCart() {
+            // Verificar si el usuario ha iniciado sesión
+            if (usuarioHaIniciadoSesion()) {
+                // Lógica para agregar al carrito
+                console.log("Producto agregado al carrito");
+            } else {
+                // Mostrar el modal si no ha iniciado sesión
+                $('#loginModal').modal('show');
+            }
         }
     
-        function mostrarMensaje(productoNombre) {
-            // Actualizar el nombre del producto en el mensaje
-            $('#product-name').text(productoNombre);
-    
-            // Mostrar el mensaje con difuminado gradual
-            $('#floating-message').fadeIn().delay(3000).fadeOut();
-        }
-    </script>
-    <script>
-        function mostrarMensaje(mensaje) {
-            var mensajeFlotante = document.getElementById('floating-message');
-            mensajeFlotante.innerText = mensaje;
-            mensajeFlotante.style.display = 'block';
-
-            setTimeout(function() {
-                mensajeFlotante.style.display = 'none';
-            }, 3000); // El mensaje desaparecerá después de 3000 milisegundos (3 segundos)
+        function usuarioHaIniciadoSesion() {
+            // Lógica para verificar si el usuario ha iniciado sesión
+            // Devuelve true si ha iniciado sesión, false si no ha iniciado sesión
+            // Puedes personalizar esta función según tu sistema de autenticación
+            return false;
         }
     </script>
 </body>

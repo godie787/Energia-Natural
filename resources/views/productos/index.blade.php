@@ -158,6 +158,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if(session('error'))
+                <div class="alert alert-danger mb-3">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="mb-3">
                 <form action="{{ route('productos.index') }}" method="GET">
                     <div class="row">

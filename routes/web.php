@@ -26,7 +26,7 @@ use App\Http\Controllers\PerfilController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect()->route('energia.store');
 });
 
 Route::get('/unauthorized', function () {return view('errors.unauthorized');})->name('unauthorized');
@@ -39,6 +39,10 @@ Route::post('/login', [LoginController::class, 'login']);
 
 
 Route::get('/logout', [LogoutController::class, 'logout']);
+
+//pag principal
+
+Route::get('/Energia Natural', [TiendaController::class, 'store'])->name('energia.store');
 
 //rutas cliente
 Route::middleware(['auth', 'checkRole:1'])->group(function () {

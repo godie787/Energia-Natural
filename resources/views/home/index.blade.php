@@ -118,7 +118,7 @@
                             <a href="{{ route('perfil.admin') }}" style="color: #333; text-align: center;">
                                 Mi Perfil
                             </a>
-                            <a href="" style="color: #333; text-align: center;">
+                            <a href="/logout" style="color: #333; text-align: center;">
                                 Cerrar sesión
                             </a>
                             

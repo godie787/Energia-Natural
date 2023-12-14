@@ -198,7 +198,7 @@
                             <td>{{ $usuario->correo }}</td>
                             <td>
                                 
-                                <a href="#" style="background-color: #3498db; color: white;" class="btn editar-btn" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" data-id="{{ $usuario->rut }}">Cambiar Rol</a>
+                                <a href="#" style="background-color: #3498db; color: white;" class="btn editar-btn" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" data-id="{{ $usuario->rut }}">Editar</a>
 
                                 <form id="eliminarForm{{ $usuario->rut }}" action="{{ route('usuarios.destroy', $usuario->rut) }}" method="POST" style="display: none;">
                                     @csrf
@@ -238,7 +238,7 @@
                                             <!-- Campo Nombre de Usuario -->
                                             <div class="form-group">
                                                 <label for="editar_nom_usuario">Nombre de Usuario:</label>
-                                                <input type="text" class="form-control" name="nom_usuario" id="editar_nom_usuario" value="{{ $listadoUsuarios->first()->nom_usuario }}" required readonly>
+                                                <input type="text" class="form-control" name="nom_usuario" id="editar_nom_usuario" value="{{ $listadoUsuarios->first()->nom_usuario }}"  >
                                             </div>
                                             <div class="form-group">
                                                 <label for="editar_nombre">Nombre:</label>
@@ -259,7 +259,7 @@
 
                                             <div class="form-group">
                                                 <label for="editar_correo">Correo:</label>
-                                                <input type="text" class="form-control" name="correo" id="editar_correo" value="{{ $listadoUsuarios->first()->correo }}" readonly required>
+                                                <input type="text" class="form-control" name="correo" id="editar_correo" value="{{ $listadoUsuarios->first()->correo }}">
                                             </div>
 
                                             <!-- Separación -->

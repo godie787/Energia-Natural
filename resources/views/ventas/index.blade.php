@@ -249,13 +249,15 @@
                             <td>{{ $venta->id_venta }}</td>
                             <td>
                                 @foreach ($venta->detalles as $detalle)
-                                    {{ $detalle->producto->nom_producto }} (Cantidad: {{ $detalle->cantidad }}) <br>
+                                    {{ $detalle->producto->nom_producto }} (ID: {{ $detalle->producto->id_producto }}) <br>
                                 @endforeach
                             </td>
                             <td>{{ $venta->id_admin_rut }}</td>
                             <td>{{ $venta->id_cliente_rut }}</td>
                             <td>{{ $venta->fecha }}</td>
-                            <td>{{ $venta->total }}</td>
+                            <td>${{ number_format($venta->total, 0, ',', '.') }}</td>
+
+
                             <td>{{ $venta->direccion_envio }}</td>
                             <td>{{ $venta->estado }}</td>
                             <td>{{ $venta->num_envio }}</td>
@@ -295,6 +297,8 @@
                     <option value="Pendiente">Pendiente</option>
                     <option value="Aprobada">Aprobada</option>
                     <option value="Despachada">Despachada</option>
+                    <option value ="Cancelada">Cancelada</option>
+                    <option value ="Entregada en tienda">Entregada en tienda</option>
                 </select>
     
                 <button type="button" onclick="guardarModificacion()">Guardar</button>
@@ -306,19 +310,20 @@
         // Función para abrir el modal
         let rutAdminActual = "{{ $rutAdmin }}";
         let idVentaActual;
+    
         function abrirModal(idVenta, numEnvioExistente, idCourrierExistente, estadoExistente) {
             idVentaActual = idVenta;
-            
+    
             // Obtener los elementos del formulario
             const numEnvioInput = document.getElementById('numEnvio');
             const idCourrierSelect = document.getElementById('idCourrier');
             const estadoSelect = document.getElementById('estado');
-            
+    
             // Establecer los valores existentes en los elementos del formulario
             numEnvioInput.value = numEnvioExistente;
             idCourrierSelect.value = idCourrierExistente;
             estadoSelect.value = estadoExistente;
-
+    
             // Mostrar el modal
             document.getElementById('myModal').style.display = 'block';
         }
@@ -332,45 +337,44 @@
         function guardarModificacion() {
             // Obtener el ID de venta
             const idVenta = idVentaActual;
-            
-            const rutAdmin = rutAdminActual;
+    
             // Obtener los valores del formulario
             const numEnvio = document.getElementById('numEnvio').value;
             const idCourrier = document.getElementById('idCourrier').value;
             const estado = document.getElementById('estado').value;
-
+    
             // Objeto con los datos a enviar al servidor
             const datos = {
                 id_venta: idVenta,
                 numEnvio: numEnvio,
                 idCourrier: idCourrier,
                 estado: estado,
-                rut_admin: rutAdmin,
+                rut_admin: rutAdminActual,
             };
-
+    
             // Obtener el token CSRF de Laravel (puedes ajustar esta lógica según tus necesidades)
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
+    
             // Realizar la solicitud Ajax para guardar los datos en el servidor
             $.ajax({
                 type: 'POST',
                 url: '/ventas/guardar',
                 data: datos,
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                    'X-CSRF-TOKEN': csrfToken,
                 },
                 success: function(response) {
                     // Manejar la respuesta del servidor si es necesario
                     console.log('Guardado exitoso:', response);
-
+    
                     // Cerrar el modal después de guardar
                     cerrarModal();
-
+    
                     mostrarMensajeActualizacion();
                 },
                 error: function(error) {
                     console.error('Error al guardar:', error);
-                }
+                },
             });
         }
     
@@ -379,19 +383,21 @@
             console.log('Modificar venta con ID:', idVenta);
             abrirModal(idVenta, numEnvio, idCourrier, estado);
         }
+    
         function mostrarMensajeActualizacion() {
             const mensajeActualizacion = document.getElementById('mensajeActualizacion');
             mensajeActualizacion.style.display = 'block';
-
+    
             // Puedes agregar más personalización al mensaje si es necesario
             // Por ejemplo, agregar clases, estilos adicionales, etc.
-
+    
             // Después de un tiempo, ocultar el mensaje automáticamente
-            setTimeout(function() {
+            setTimeout(function () {
                 mensajeActualizacion.style.display = 'none';
             }, 3000); // Ocultar después de 3 segundos (puedes ajustar este valor)
         }
     </script>
+    
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

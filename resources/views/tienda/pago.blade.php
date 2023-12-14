@@ -218,9 +218,11 @@
         </a>
         <div class="header-content">
             <div class="social-dropdown">
-                <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
-                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
-                </a>
+                <div class="social-dropdown" style="float: left; margin-right: 10px;">
+                    <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
+                        <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
+                    </a>
+                </div>
                 <div class="dropdown">
                     
                     <button class=" btn-no-bg-text dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -335,50 +337,69 @@
         </div>
     </div>
 </div>
+
+
+
+
 <script>
+    function obtenerProductos() {
+        var carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        return carrito.length > 0 ? carrito : null;
+    }
+
+    var productos = obtenerProductos();
+
+    if (productos) {
+        // Realizar solicitud AJAX
+    } else {
+        console.error('No se encontraron productos para procesar el pago.');
+    }
+
     function confirmarPago() {
-    // Obtener datos necesarios (rut del cliente, fecha, total, dirección, etc.)
-    var rutCliente = obtenerRutCliente(); // Implementa esta función según tu lógica
-    var fecha = obtenerFecha(); // Implementa esta función según tu lógica
-    var total = obtenerTotal(); // Implementa esta función según tu lógica
-    var direccion = obtenerDireccion(); // Implementa esta función según tu lógica
+        // Obtener datos necesarios (rut del cliente, fecha, total, dirección, etc.)
+        var rutCliente = obtenerRutCliente(); // Implementa esta función según tu lógica
+        var fecha = obtenerFecha(); // Implementa esta función según tu lógica
+        var total = obtenerTotal(); // Implementa esta función según tu lógica
+        var direccion = obtenerDireccion(); // Implementa esta función según tu lógica
 
-    // Verifiquemos los valores antes de la solicitud AJAX
-    console.log('Valores antes de la solicitud AJAX:', {
-        rutCliente: rutCliente,
-        fecha: fecha,
-        total: total,
-        direccion: direccion,
-    });
-
-    // Realizar solicitud AJAX para notificar al servidor que el pago se ha realizado y enviar datos adicionales
-    $.ajax({
-        type: 'POST',
-        url: '/confirmar-pago',
-        data: {
-            _token: '{{ csrf_token() }}',
-            rutCliente: rutCliente, // Agrega el rut del cliente aquí
+        // Verifiquemos los valores antes de la solicitud AJAX
+        console.log('Valores antes de la solicitud AJAX:', {
+            rutCliente: rutCliente,
             fecha: fecha,
             total: total,
             direccion: direccion,
-        },
-        success: function(response) {
-            console.log('Pago confirmado con éxito');
+            productos: productos,
+        });
 
-            // Limpiar el carrito localmente
-            localStorage.removeItem('carrito');
-
-            // Mostrar el modal de agradecimiento
-            $('#agradecimientoModal').modal('show');
-        },
-        error: function(error) {
-            console.error('Error al confirmar el pago', error);
-
-            // Mostrar un mensaje de error al usuario
-            alert('Hubo un error al procesar el pago. Por favor, inténtalo nuevamente.');
-        }
-    });
-}
+        // Realizar solicitud AJAX para notificar al servidor que el pago se ha realizado y enviar datos adicionales
+        $.ajax({
+            type: 'POST',
+            url: '/confirmar-pago',
+            data: {
+                _token: '{{ csrf_token() }}',
+                rutCliente: rutCliente,
+                fecha: fecha,
+                total: total,
+                direccion: direccion,
+                productos: productos.map(function(producto) {
+                    return {
+                        id: producto.id,
+                        cantidad: producto.cantidad || 1,  // Asegúrate de incluir la cantidad
+                        precio: producto.precio,
+                    };
+                }),
+            },
+            success: function(response) {
+                console.log('Pago confirmado con éxito');
+                localStorage.removeItem('carrito');
+                $('#agradecimientoModal').modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error al confirmar el pago', jqXHR.responseText);
+                alert('Hubo un error al procesar el pago. Por favor, inténtalo nuevamente.');
+            }
+        });
+    }
 
 
 

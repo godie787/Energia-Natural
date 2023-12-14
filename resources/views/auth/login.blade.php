@@ -94,28 +94,38 @@
             text-decoration: underline;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 
 <body>
-  <header>
-    <div>
-    </div>
-    <div class="header-content">
-        <div class="social-dropdown">
-            <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
-                <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
+    <header>
+        <a href="/Energia Natural" style="font-family: 'Roboto', sans-serif; font-size: 16px; text-decoration: none; color: white; text-align: left; margin-left: 10px;">
+            <i class="fas fa-store" style="margin-right: 5px;"></i> Tienda
+        </a>
+        <div class="header-content" style="float: right; margin-right: 10px;">
+            <div class="social-dropdown" style="float: left; margin-right: 10px;">
+                <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
+                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
+                </a>
+            </div>
+    
+            <!-- Agregar logos para iniciar sesión y registrarse -->
+            <a href="/login" style="color: white; text-decoration: none; margin-right: 10px;">
+                <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i> Iniciar sesión
+            </a>
+            <div class="divider" style="float: left; border-right: 1px solid white; height: 20px; margin-right: 10px;"></div>
+            <a href="/register" style="color: white; text-decoration: none; margin-left: 10px;">
+                <i class="fas fa-user-plus" style="margin-right: 5px;"></i> Registrarse
             </a>
         </div>
-        <div class="divider"></div>
-    </div>
-</header>
+    </header>
+    
+    
 <div class="container mt-5">
   <div class="login-container">
       <form action="/login" method="POST">
           @csrf
-          <div class="d-flex align-items-center mb-3 pb-1">
-              <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-          </div>
 
           <h3 class="fw-normal mb-3 pb-3">Iniciar sesión</h3>
           @if ($errors->any())

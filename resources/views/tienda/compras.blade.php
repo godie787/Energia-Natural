@@ -216,9 +216,11 @@
             
             
             <div class="social-dropdown">
-                <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
-                    <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram">
-                </a>
+                <div class="social-dropdown" style="float: left; margin-right: 10px;">
+                    <a class="instagram-logo" href="https://www.instagram.com/energia._natural/" target="_blank">
+                        <img src="{{asset('images/instagram.png')}}" alt="Logo de Instagram" style="filter: brightness(0) invert(1);">
+                    </a>
+                </div>
                 <div class="dropdown">
                     
                     <button class=" btn-no-bg-text dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -239,17 +241,18 @@
         </div>
     </header>
     <div class="container">
-        <h1>Mis Compras</h1>
+        <h1>Mis Compras </h1>
         <br>
-    
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>ID Venta</th>
                     <th>Fecha</th>
+                    <th>Productos Comprados</th>
                     <th>Total</th>
                     <th>Número de Envío</th>
                     <th>Nombre del Courrier</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
@@ -257,9 +260,15 @@
                     <tr>
                         <td>{{ $compra->id_venta }}</td>
                         <td>{{ $compra->fecha }}</td>
+                        <td>
+                            @foreach($compra->detalles as $detalle)
+                                {{ $detalle->producto->nom_producto }} <br>
+                            @endforeach
+                        </td>
                         <td>${{ number_format($compra->total, 0, ',', '.') }}</td>
                         <td>{{ $compra->num_envio }}</td>
                         <td>{{ $compra->nombre_courrier }}</td>
+                        <td>{{ $compra->estado }}</td>
                     </tr>
                 @endforeach
             </tbody>

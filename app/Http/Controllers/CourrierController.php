@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Courrier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
 class CourrierController extends Controller
 {
@@ -43,19 +44,23 @@ class CourrierController extends Controller
 
     public function destroy($id_courrier)
     {
-        // Encuentra el courrier por su ID
-        $courrier = Courrier::find($id_courrier);
+        try {
+            // Encuentra el courrier por su ID
+            $courrier = Courrier::find($id_courrier);
 
-        // Verifica si el courrier existe
-        if (!$courrier) {
-            return redirect()->route('courrier.agregar')->with('error', 'Courrier no encontrado');
+            // Verifica si el courrier existe
+            if (!$courrier) {
+                return redirect()->route('courrier.agregar')->with('error', 'Courrier no encontrado');
+            }
+
+            // Realiza la lógica para eliminar el courrier (puedes ajustar esto según tus necesidades)
+            $courrier->delete();
+
+            // Redirige a la página adecuada después de la eliminación
+            return redirect()->route('courrier.agregar')->with('success', 'Courrier eliminado exitosamente');
+        } catch (QueryException $e) {
+            return redirect()->route('courrier.agregar')->with('error', 'No se puede eliminar el courrier. Está asociado a una venta.');
         }
-
-        // Realiza la lógica para eliminar el courrier (puedes ajustar esto según tus necesidades)
-        $courrier->delete();
-
-        // Redirige a la página adecuada después de la eliminación
-        return redirect()->route('courrier.agregar')->with('success', 'Courrier eliminado exitosamente');
     }
     public function edit($id_courrier)
     {

@@ -84,8 +84,6 @@ class UsuarioController extends Controller
         $reglas = [
             'nom_usuario' => $editandoUsuarioActual ? 'required' : 'required|unique:usuario,nom_usuario',
             'nombre' => 'required',
-            
-            
             'password' => $request->filled('password') ? 'min:8' : '',
         ];
     

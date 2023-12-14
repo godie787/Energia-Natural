@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Venta;
 use App\Models\Courrier;
+use App\Models\DetalleVenta;
+use Illuminate\Database\QueryException;
 
 use Exception;
 class ProductoController extends Controller
@@ -63,9 +65,13 @@ class ProductoController extends Controller
 
     public function destroy($id)
     {
-        $producto = Producto::find($id);
-        $producto->delete();
-        return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
+        try {
+            $producto = Producto::find($id);
+            $producto->delete();
+            return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
+        } catch (QueryException $e) {
+            return redirect()->route('productos.index')->with('error', 'No se puede eliminar el producto. Está asociado a una venta.');
+        }
     }
     public function edit($id_producto)
     {
@@ -259,6 +265,7 @@ class ProductoController extends Controller
             $fecha = Carbon::now(); // Obtén la fecha actual con Carbon
             $total = $request->input('total');
             $direccion = $request->input('direccion');
+            $productos = $request->input('productos'); // Asume que recibes un array de productos con detalles
 
             // Log para verificar los valores recibidos
             \Log::info('Valores recibidos en confirmarPago:', [
@@ -266,13 +273,11 @@ class ProductoController extends Controller
                 'fecha' => $fecha,
                 'total' => $total,
                 'direccion' => $direccion,
+                'productos' => $productos,
             ]);
 
-            // Lógica para confirmar el pago en el servidor y obtener el id del administrador
-            // No necesitas obtener el ID del administrador en este punto
-
-            // Insertar en la base de datos
-            Venta::create([
+            // Insertar en la base de datos (Venta)
+            $venta = Venta::create([
                 'id_cliente_rut' => $rutCliente,
                 'fecha' => $fecha,
                 'total' => $total,
@@ -280,6 +285,16 @@ class ProductoController extends Controller
                 'estado' => 'pendiente',
                 // Otros campos...
             ]);
+
+            // Insertar en la base de datos (DetalleVenta)
+            foreach ($productos as $producto) {
+                $detalleVenta = new DetalleVenta([
+                    'id_producto' => $producto['id'], // Asume que cada producto tiene un ID
+                    'cantidad' => $producto['cantidad'],
+                    'precio' => $producto['precio'],
+                ]);
+                $venta->detalles()->save($detalleVenta);
+            }
 
             // Limpiar el carrito
             Session::forget('carrito');
@@ -291,17 +306,20 @@ class ProductoController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
     public function verCompras() {
         $user = auth()->user();
-    
+        
         // Obtener compras del usuario con información del courrier
         $compras = Venta::where('id_cliente_rut', $user->rut)
-                        ->join('courrier', 'venta.id_courrier', '=', 'courrier.id_courrier')
-                        ->select('venta.id_venta', 'venta.fecha', 'venta.total', 'venta.num_envio', 'courrier.nombre as nombre_courrier')
-                        ->get();
-    
+            ->leftJoin('courrier', 'venta.id_courrier', '=', 'courrier.id_courrier')
+            ->select('venta.id_venta', 'venta.fecha', 'venta.total', 'venta.num_envio', 'courrier.nombre as nombre_courrier', 'venta.estado') // Incluye 'venta.estado'
+            ->get();
+        
         return view('tienda.compras', compact('user', 'compras'));
     }
+    
+    
 
 
     
